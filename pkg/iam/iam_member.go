@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/billing"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/folder"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/organizations"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/projects"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/serviceaccount"
@@ -61,7 +62,7 @@ func NewIAMMember(ctx *pulumi.Context, name string, args *IAMMemberArgs, opts ..
 			Member: args.Member,
 		}, childOpts...)
 	case "folder":
-		_, err = organizations.NewFolderIamMember(ctx, name+"-member", &organizations.FolderIamMemberArgs{
+		_, err = folder.NewIAMMember(ctx, name+"-member", &folder.IAMMemberArgs{
 			Folder: args.ParentID,
 			Role:   args.Role,
 			Member: args.Member,
@@ -128,7 +129,7 @@ func NewIAMBinding(ctx *pulumi.Context, name string, args *IAMBindingArgs, opts 
 			Members: args.Members,
 		}, childOpts...)
 	case "folder":
-		_, err = organizations.NewFolderIamBinding(ctx, name+"-binding", &organizations.FolderIamBindingArgs{
+		_, err = folder.NewIAMBinding(ctx, name+"-binding", &folder.IAMBindingArgs{
 			Folder:  args.ParentID,
 			Role:    args.Role,
 			Members: args.Members,
