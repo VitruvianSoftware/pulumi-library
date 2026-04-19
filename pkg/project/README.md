@@ -25,6 +25,7 @@ The `Project` component wraps [`organizations.Project`](https://www.pulumi.com/r
 | `AutoCreateNetwork` | `pulumi.BoolPtrInput` | | `false` | Whether to create the default network |
 | `Labels` | `pulumi.StringMapInput` | | `nil` | Labels to apply to the project |
 | `DeletionPolicy` | `pulumi.StringPtrInput` | | `nil` | Deletion policy (`DELETE`, `ABANDON`, `PREVENT`) |
+| `RandomProjectID` | `bool` | | `false` | Append a 4-char random hex suffix to project ID |
 
 ### `Project` (Output)
 
@@ -72,6 +73,29 @@ p, err := project.NewProject(ctx, "data-project", &project.ProjectArgs{
 })
 ```
 
+### Project with Random Suffix
+
+When `RandomProjectID` is `true`, a 4-character hex suffix is appended to the
+project ID (e.g., `prj-b-seed` → `prj-b-seed-a1b2`). The suffix is generated
+once via a `random.RandomId` resource and persisted in Pulumi state. This
+matches the upstream Terraform Example Foundation's `random_project_id`
+behavior and prevents project ID collisions across multiple deployments.
+
+```go
+p, err := project.NewProject(ctx, "seed-project", &project.ProjectArgs{
+    ProjectID:       pulumi.String("prj-b-seed"),
+    Name:            pulumi.String("prj-b-seed"),
+    FolderID:        folderID,
+    BillingAccount:  pulumi.String("XXXXXX-XXXXXX-XXXXXX"),
+    RandomProjectID: true,
+    ActivateApis: []string{
+        "cloudkms.googleapis.com",
+        "compute.googleapis.com",
+    },
+})
+// p.Project.ProjectId will be something like "prj-b-seed-f3c7"
+```
+
 ### Referencing Project Outputs
 
 ```go
@@ -88,4 +112,14 @@ pkg:index:Project ("data-project")
 ├── gcp:projects:Service ("data-project-bigquery.googleapis.com")
 ├── gcp:projects:Service ("data-project-storage.googleapis.com")
 └── gcp:projects:Service ("data-project-cloudkms.googleapis.com")
+```
+
+When `RandomProjectID` is `true`, a `random:index:RandomId` resource is added:
+
+```
+pkg:index:Project ("seed-project")
+├── random:index:RandomId ("seed-project-suffix")
+├── gcp:organizations:Project ("seed-project")
+├── gcp:projects:Service ("seed-project-cloudkms.googleapis.com")
+└── gcp:projects:Service ("seed-project-compute.googleapis.com")
 ```
