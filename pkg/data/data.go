@@ -21,9 +21,14 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// DataPlatformArgs configures a BigQuery data platform with raw and curated
+// datasets. Dataset IDs are parameterized to avoid collisions when deploying
+// multiple DataPlatform instances in the same project.
 type DataPlatformArgs struct {
-	ProjectID pulumi.StringInput
-	Location  pulumi.StringInput
+	ProjectID        pulumi.StringInput
+	Location         pulumi.StringInput
+	RawDatasetID     string // defaults to "raw_data" if empty
+	CuratedDatasetID string // defaults to "curated_data" if empty
 }
 
 type DataPlatform struct {
@@ -39,8 +44,17 @@ func NewDataPlatform(ctx *pulumi.Context, name string, args *DataPlatformArgs, o
 		return nil, err
 	}
 
+	rawID := args.RawDatasetID
+	if rawID == "" {
+		rawID = "raw_data"
+	}
+	curatedID := args.CuratedDatasetID
+	if curatedID == "" {
+		curatedID = "curated_data"
+	}
+
 	raw, err := bigquery.NewDataset(ctx, name+"-raw", &bigquery.DatasetArgs{
-		DatasetId: pulumi.String("raw_data"),
+		DatasetId: pulumi.String(rawID),
 		Project:   args.ProjectID,
 		Location:  args.Location,
 	}, pulumi.Parent(component))
@@ -50,7 +64,7 @@ func NewDataPlatform(ctx *pulumi.Context, name string, args *DataPlatformArgs, o
 	component.RawDataset = raw
 
 	curated, err := bigquery.NewDataset(ctx, name+"-curated", &bigquery.DatasetArgs{
-		DatasetId: pulumi.String("curated_data"),
+		DatasetId: pulumi.String(curatedID),
 		Project:   args.ProjectID,
 		Location:  args.Location,
 	}, pulumi.Parent(component))
@@ -58,6 +72,11 @@ func NewDataPlatform(ctx *pulumi.Context, name string, args *DataPlatformArgs, o
 		return nil, err
 	}
 	component.CuratedDataset = curated
+
+	ctx.RegisterResourceOutputs(component, pulumi.Map{
+		"rawDatasetId":     raw.DatasetId,
+		"curatedDatasetId": curated.DatasetId,
+	})
 
 	return component, nil
 }

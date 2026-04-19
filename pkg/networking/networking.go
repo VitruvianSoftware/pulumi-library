@@ -18,22 +18,32 @@ package networking
 
 import (
 	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/compute"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/servicenetworking"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+type SecondaryRangeArgs struct {
+	RangeName string
+	CIDR      string
+}
+
 type SubnetArgs struct {
-	Name   string
-	Region string
-	CIDR   string
+	Name            string
+	Region          string
+	CIDR            string
+	SecondaryRanges []SecondaryRangeArgs
+	FlowLogs        bool
 }
 
 type NetworkingArgs struct {
-	ProjectID   pulumi.StringInput
-	VPCName     pulumi.StringInput
-	Subnets     []SubnetArgs
-	EnablePSA   bool // Private Service Access
+	ProjectID                     pulumi.StringInput
+	VPCName                       pulumi.StringInput
+	Subnets                       []SubnetArgs
+	EnablePSA                     bool
+	DeleteDefaultRoutesOnCreation *bool
+	RoutingMode                   string // "GLOBAL" or "REGIONAL"
 }
 
 type Networking struct {
@@ -51,11 +61,23 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 		return nil, err
 	}
 
+	deleteRoutes := true
+	if args.DeleteDefaultRoutesOnCreation != nil {
+		deleteRoutes = *args.DeleteDefaultRoutesOnCreation
+	}
+
+	routingMode := "GLOBAL"
+	if args.RoutingMode != "" {
+		routingMode = args.RoutingMode
+	}
+
 	// 1. VPC
 	vpc, err := compute.NewNetwork(ctx, name+"-vpc", &compute.NetworkArgs{
-		Project:               args.ProjectID,
-		Name:                  args.VPCName,
-		AutoCreateSubnetworks: pulumi.Bool(false),
+		Project:                       args.ProjectID,
+		Name:                          args.VPCName,
+		AutoCreateSubnetworks:         pulumi.Bool(false),
+		DeleteDefaultRoutesOnCreation: pulumi.Bool(deleteRoutes),
+		RoutingMode:                   pulumi.String(routingMode),
 	}, pulumi.Parent(component))
 	if err != nil {
 		return nil, err
@@ -64,13 +86,35 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 
 	// 2. Subnets
 	for _, s := range args.Subnets {
-		sub, err := compute.NewSubnetwork(ctx, name+"-"+s.Name, &compute.SubnetworkArgs{
-			Project:     args.ProjectID,
-			Name:        pulumi.String(s.Name),
-			Region:      pulumi.String(s.Region),
-			Network:     vpc.ID(),
-			IpCidrRange: pulumi.String(s.CIDR),
-		}, pulumi.Parent(vpc))
+		subArgs := &compute.SubnetworkArgs{
+			Project:               args.ProjectID,
+			Name:                  pulumi.String(s.Name),
+			Region:                pulumi.String(s.Region),
+			Network:               vpc.ID(),
+			IpCidrRange:           pulumi.String(s.CIDR),
+			PrivateIpGoogleAccess: pulumi.Bool(true), // Standard for enterprise
+		}
+
+		if s.FlowLogs {
+			subArgs.LogConfig = &compute.SubnetworkLogConfigArgs{
+				AggregationInterval: pulumi.String("INTERVAL_5_SEC"),
+				FlowSampling:        pulumi.Float64(0.5),
+				Metadata:            pulumi.String("INCLUDE_ALL_METADATA"),
+			}
+		}
+
+		if len(s.SecondaryRanges) > 0 {
+			var secRanges []compute.SubnetworkSecondaryIpRangeInput
+			for _, sr := range s.SecondaryRanges {
+				secRanges = append(secRanges, &compute.SubnetworkSecondaryIpRangeArgs{
+					RangeName:   pulumi.String(sr.RangeName),
+					IpCidrRange: pulumi.String(sr.CIDR),
+				})
+			}
+			subArgs.SecondaryIpRanges = compute.SubnetworkSecondaryIpRangeArray(secRanges)
+		}
+
+		sub, err := compute.NewSubnetwork(ctx, name+"-"+s.Name, subArgs, pulumi.Parent(vpc))
 		if err != nil {
 			return nil, err
 		}
@@ -81,7 +125,7 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 	if args.EnablePSA {
 		reservedIP, err := compute.NewGlobalAddress(ctx, name+"-psa-ip", &compute.GlobalAddressArgs{
 			Project:      args.ProjectID,
-			Name:         pulumi.String(name + "-psa-range"),
+			Name:         pulumi.String(fmt.Sprintf("%s-psa-range", name)),
 			Purpose:      pulumi.String("VPC_PEERING"),
 			AddressType:  pulumi.String("INTERNAL"),
 			PrefixLength: pulumi.Int(16),
@@ -92,8 +136,8 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 		}
 
 		_, err = servicenetworking.NewConnection(ctx, name+"-psa-conn", &servicenetworking.ConnectionArgs{
-			Network:                vpc.ID(),
-			Service:                pulumi.String("servicenetworking.googleapis.com"),
+			Network:               vpc.ID(),
+			Service:               pulumi.String("servicenetworking.googleapis.com"),
 			ReservedPeeringRanges: pulumi.StringArray{reservedIP.Name},
 		}, pulumi.Parent(vpc))
 		if err != nil {
