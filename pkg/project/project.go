@@ -21,6 +21,7 @@ import (
 
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/organizations"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/projects"
+	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -39,6 +40,13 @@ type ProjectArgs struct {
 	AutoCreateNetwork pulumi.BoolPtrInput
 	Labels            pulumi.StringMapInput
 	DeletionPolicy    pulumi.StringPtrInput
+
+	// RandomProjectID appends a 4-character random hex suffix to ProjectID,
+	// matching the upstream Terraform Example Foundation's use of the
+	// project-factory module's random_project_id feature. The suffix is
+	// generated once via a random.RandomId resource and persisted in Pulumi
+	// state, so subsequent runs are idempotent. Example: "prj-b-seed-a1b2".
+	RandomProjectID bool
 }
 
 type Project struct {
@@ -61,10 +69,33 @@ func NewProject(ctx *pulumi.Context, name string, args *ProjectArgs, opts ...pul
 		autoCreateNetwork = pulumi.Bool(false)
 	}
 
+	// Determine the effective project ID. When RandomProjectID is true,
+	// a 4-character hex suffix is appended (2 bytes = 4 hex chars), matching
+	// the upstream terraform-google-project-factory random_id configuration.
+	var projectID pulumi.StringInput
+	var projectName pulumi.StringInput
+	if args.RandomProjectID {
+		suffix, err := random.NewRandomId(ctx, fmt.Sprintf("%s-suffix", name), &random.RandomIdArgs{
+			ByteLength: pulumi.Int(2),
+		}, pulumi.Parent(component))
+		if err != nil {
+			return nil, err
+		}
+		projectID = pulumi.All(args.ProjectID, suffix.Hex).ApplyT(func(vals []interface{}) string {
+			return fmt.Sprintf("%s-%s", vals[0], vals[1])
+		}).(pulumi.StringOutput)
+		// Keep the display name without the suffix for readability, matching
+		// upstream behavior where name != project_id.
+		projectName = args.Name
+	} else {
+		projectID = args.ProjectID
+		projectName = args.Name
+	}
+
 	// 1. Create the Project
 	pArgs := &organizations.ProjectArgs{
-		ProjectId:         args.ProjectID,
-		Name:              args.Name,
+		ProjectId:         projectID,
+		Name:              projectName,
 		FolderId:          args.FolderID,
 		BillingAccount:    args.BillingAccount,
 		AutoCreateNetwork: autoCreateNetwork,
