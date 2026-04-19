@@ -18,12 +18,32 @@ package project
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/billing"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/organizations"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/projects"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/resourcemanager"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
+
+// BudgetConfig configures a billing budget alert for the project.
+// When provided (non-nil), a google_billing_budget resource is created,
+// matching the TF project-factory budget module behavior.
+type BudgetConfig struct {
+	// Amount is the budget amount in the billing account's currency (e.g. USD).
+	Amount float64
+	// AlertSpentPercents is a list of percentages at which to alert.
+	// Defaults to [0.5, 0.7, 1.0] if empty.
+	AlertSpentPercents []float64
+	// AlertPubSubTopic is an optional Pub/Sub topic for budget notifications,
+	// in the form "projects/{project_id}/topics/{topic_id}".
+	AlertPubSubTopic string
+	// AlertSpendBasis is the type of basis: "CURRENT_SPEND" or "FORECASTED_SPEND".
+	// Defaults to "CURRENT_SPEND".
+	AlertSpendBasis string
+}
 
 // ProjectArgs configures the Project component.
 // ActivateApis is a plain []string (not a Pulumi Input) because API names are
@@ -47,6 +67,20 @@ type ProjectArgs struct {
 	// generated once via a random.RandomId resource and persisted in Pulumi
 	// state, so subsequent runs are idempotent. Example: "prj-b-seed-a1b2".
 	RandomProjectID bool
+
+	// Budget configures a billing budget alert for this project.
+	// When nil, no budget is created. Mirrors the TF project-factory
+	// budget_amount / budget_alert_* variables.
+	Budget *BudgetConfig
+
+	// DefaultServiceAccount controls the project's default service account.
+	// Valid values: "delete", "deprivilege", "disable", or "keep" (default).
+	// Mirrors the TF project-factory default_service_account variable.
+	DefaultServiceAccount string
+
+	// Lien adds a lien on the project to prevent accidental deletion.
+	// Mirrors the TF project-factory lien variable.
+	Lien bool
 }
 
 type Project struct {
@@ -127,9 +161,106 @@ func NewProject(ctx *pulumi.Context, name string, args *ProjectArgs, opts ...pul
 		component.Services = append(component.Services, svc)
 	}
 
+	// 3. Budget alert — conditionally created when BudgetConfig is provided.
+	// Mirrors the TF project-factory's budget sub-module:
+	// creates a google_billing_budget with threshold rules per percent.
+	if args.Budget != nil {
+		if err := createBudget(ctx, name, p, args, component); err != nil {
+			return nil, err
+		}
+	}
+
+	// 4. Default Service Account management — mirrors TF's
+	// google_project_default_service_accounts resource.
+	if args.DefaultServiceAccount != "" && strings.ToUpper(args.DefaultServiceAccount) != "KEEP" {
+		// Convert Services slice to []pulumi.Resource for DependsOn
+		var svcDeps []pulumi.Resource
+		for _, s := range component.Services {
+			svcDeps = append(svcDeps, s)
+		}
+		if _, err := projects.NewDefaultServiceAccounts(ctx, fmt.Sprintf("%s-default-sa", name), &projects.DefaultServiceAccountsArgs{
+			Project:       p.ProjectId,
+			Action:        pulumi.String(strings.ToUpper(args.DefaultServiceAccount)),
+			RestorePolicy: pulumi.String("REVERT_AND_IGNORE_FAILURE"),
+		}, pulumi.Parent(component), pulumi.DependsOn(svcDeps)); err != nil {
+			return nil, err
+		}
+	}
+
+	// 5. Project lien — prevents accidental project deletion.
+	if args.Lien {
+		if _, err := resourcemanager.NewLien(ctx, fmt.Sprintf("%s-lien", name), &resourcemanager.LienArgs{
+			Parent: p.Number.ApplyT(func(n string) string {
+				return fmt.Sprintf("projects/%s", n)
+			}).(pulumi.StringOutput),
+			Restrictions: pulumi.StringArray{pulumi.String("resourcemanager.projects.delete")},
+			Origin:       pulumi.String("project-factory"),
+			Reason:       pulumi.String("Project Factory lien"),
+		}, pulumi.Parent(component)); err != nil {
+			return nil, err
+		}
+	}
+
 	ctx.RegisterResourceOutputs(component, pulumi.Map{
 		"projectId": p.ProjectId,
 	})
 
 	return component, nil
+}
+
+// createBudget creates a google_billing_budget for the project.
+func createBudget(ctx *pulumi.Context, name string, p *organizations.Project, args *ProjectArgs, component *Project) error {
+	budget := args.Budget
+
+	// Apply defaults matching TF project-factory
+	alertPercents := budget.AlertSpentPercents
+	if len(alertPercents) == 0 {
+		alertPercents = []float64{0.5, 0.7, 1.0}
+	}
+	spendBasis := budget.AlertSpendBasis
+	if spendBasis == "" {
+		spendBasis = "CURRENT_SPEND"
+	}
+
+	// Build threshold rules
+	thresholdRules := make(billing.BudgetThresholdRuleArray, len(alertPercents))
+	for i, pct := range alertPercents {
+		thresholdRules[i] = &billing.BudgetThresholdRuleArgs{
+			ThresholdPercent: pulumi.Float64(pct),
+			SpendBasis:       pulumi.String(spendBasis),
+		}
+	}
+
+	budgetArgs := &billing.BudgetArgs{
+		BillingAccount: args.BillingAccount,
+		DisplayName: p.ProjectId.ApplyT(func(id string) string {
+			return fmt.Sprintf("Budget For %s", id)
+		}).(pulumi.StringOutput),
+		Amount: &billing.BudgetAmountArgs{
+			SpecifiedAmount: &billing.BudgetAmountSpecifiedAmountArgs{
+				Units: pulumi.String(fmt.Sprintf("%d", int(budget.Amount))),
+			},
+		},
+		BudgetFilter: &billing.BudgetBudgetFilterArgs{
+			Projects: pulumi.StringArray{
+				p.Number.ApplyT(func(n string) string {
+					return fmt.Sprintf("projects/%s", n)
+				}).(pulumi.StringOutput),
+			},
+		},
+		ThresholdRules: thresholdRules,
+	}
+
+	// Optional Pub/Sub notification
+	if budget.AlertPubSubTopic != "" {
+		budgetArgs.AllUpdatesRule = &billing.BudgetAllUpdatesRuleArgs{
+			PubsubTopic: pulumi.String(budget.AlertPubSubTopic),
+		}
+	}
+
+	if _, err := billing.NewBudget(ctx, fmt.Sprintf("%s-budget", name), budgetArgs, pulumi.Parent(component)); err != nil {
+		return err
+	}
+
+	return nil
 }
