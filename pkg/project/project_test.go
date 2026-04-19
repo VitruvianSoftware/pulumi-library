@@ -312,3 +312,122 @@ func TestNewProject_ServiceResourceNaming(t *testing.T) {
 	require.NotNil(t, svc, "service resource should follow naming convention")
 	assert.Equal(t, "compute.googleapis.com", svc.Inputs["service"].StringValue())
 }
+
+// ---------- Budget ----------
+
+const gcpBudget = "gcp:billing/budget:Budget"
+
+func TestNewProject_WithBudget(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-budget", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-budget"),
+			Name:           pulumi.String("Budget Test"),
+			FolderID:       pulumi.String("folders/100"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Budget: &BudgetConfig{
+				Amount:             1000,
+				AlertSpentPercents: []float64{0.5, 0.9, 1.2},
+			},
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	budgets := tracker.RequireType(t, gcpBudget, 1)
+	assert.Equal(t, "AAAAAA-BBBBBB-CCCCCC", budgets[0].Inputs["billingAccount"].StringValue())
+}
+
+func TestNewProject_NoBudget(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-no-budget", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-no-budget"),
+			Name:           pulumi.String("No Budget"),
+			FolderID:       pulumi.String("folders/200"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	assert.Equal(t, 0, tracker.TypeCount(gcpBudget))
+}
+
+// ---------- Default Service Account ----------
+
+const gcpDefaultSA = "gcp:projects/defaultServiceAccounts:DefaultServiceAccounts"
+
+func TestNewProject_DefaultServiceAccountDisable(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-dsa", &ProjectArgs{
+			ProjectID:             pulumi.String("prj-dsa"),
+			Name:                  pulumi.String("DSA Test"),
+			FolderID:              pulumi.String("folders/300"),
+			BillingAccount:        pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			DefaultServiceAccount: "disable",
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	dsas := tracker.RequireType(t, gcpDefaultSA, 1)
+	assert.Equal(t, "DISABLE", dsas[0].Inputs["action"].StringValue())
+}
+
+func TestNewProject_DefaultServiceAccountKeep(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-dsa-keep", &ProjectArgs{
+			ProjectID:             pulumi.String("prj-dsa-keep"),
+			Name:                  pulumi.String("DSA Keep"),
+			FolderID:              pulumi.String("folders/400"),
+			BillingAccount:        pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			DefaultServiceAccount: "keep",
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	assert.Equal(t, 0, tracker.TypeCount(gcpDefaultSA),
+		"keep should not create a DefaultServiceAccounts resource")
+}
+
+// ---------- Lien ----------
+
+const gcpLien = "gcp:resourcemanager/lien:Lien"
+
+func TestNewProject_WithLien(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-lien", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-lien"),
+			Name:           pulumi.String("Lien Test"),
+			FolderID:       pulumi.String("folders/500"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Lien:           true,
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	liens := tracker.RequireType(t, gcpLien, 1)
+	assert.Equal(t, "project-factory", liens[0].Inputs["origin"].StringValue())
+}
+
+func TestNewProject_NoLien(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-no-lien", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-no-lien"),
+			Name:           pulumi.String("No Lien"),
+			FolderID:       pulumi.String("folders/600"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	assert.Equal(t, 0, tracker.TypeCount(gcpLien))
+}
