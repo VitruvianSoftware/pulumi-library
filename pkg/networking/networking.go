@@ -38,12 +38,12 @@ type SubnetArgs struct {
 }
 
 type NetworkingArgs struct {
-	ProjectID                     pulumi.StringInput
-	VPCName                       pulumi.StringInput
-	Subnets                       []SubnetArgs
-	EnablePSA                     bool
-	DeleteDefaultRoutesOnCreation *bool
-	RoutingMode                   string // "GLOBAL" or "REGIONAL"
+	ProjectID                   pulumi.StringInput
+	VPCName                     pulumi.StringInput
+	Subnets                     []SubnetArgs
+	EnablePSA                   bool
+	DeleteDefaultRoutesOnCreate *bool
+	RoutingMode                 string // "GLOBAL" or "REGIONAL"
 }
 
 type Networking struct {
@@ -62,8 +62,8 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 	}
 
 	deleteRoutes := true
-	if args.DeleteDefaultRoutesOnCreation != nil {
-		deleteRoutes = *args.DeleteDefaultRoutesOnCreation
+	if args.DeleteDefaultRoutesOnCreate != nil {
+		deleteRoutes = *args.DeleteDefaultRoutesOnCreate
 	}
 
 	routingMode := "GLOBAL"
@@ -73,11 +73,11 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 
 	// 1. VPC
 	vpc, err := compute.NewNetwork(ctx, name+"-vpc", &compute.NetworkArgs{
-		Project:                       args.ProjectID,
-		Name:                          args.VPCName,
-		AutoCreateSubnetworks:         pulumi.Bool(false),
-		DeleteDefaultRoutesOnCreation: pulumi.Bool(deleteRoutes),
-		RoutingMode:                   pulumi.String(routingMode),
+		Project:                     args.ProjectID,
+		Name:                        args.VPCName,
+		AutoCreateSubnetworks:       pulumi.Bool(false),
+		DeleteDefaultRoutesOnCreate: pulumi.Bool(deleteRoutes),
+		RoutingMode:                 pulumi.String(routingMode),
 	}, pulumi.Parent(component))
 	if err != nil {
 		return nil, err
