@@ -1,57 +1,117 @@
-# pkg/iam — Multi-Scope IAM Bindings
+# pkg/iam — Scope-Isolated IAM Bindings
 
-Additive and authoritative IAM bindings across 5 GCP scopes: organization, folder, project, service account, and billing account.
+Additive and authoritative IAM bindings across 5 GCP scopes, each with a dedicated constructor for compile-time safety and blast radius isolation.
 
 ## Overview
 
-The `IAMMember` component creates **additive** IAM bindings (adds a member without affecting others). The `IAMBinding` component creates **authoritative** bindings for a specific role (removes any members not in the list).
+Each GCP IAM scope has its own pair of constructors:
 
-Both components use a `ParentType` dispatch pattern with a plain Go `string` to determine which underlying GCP IAM resource to create. This ensures the resource is registered directly in Pulumi's state graph, not inside an `ApplyT` callback.
+| Scope | Additive (Member) | Authoritative (Binding) |
+|-------|-------------------|------------------------|
+| Organization | `NewOrganizationIAMMember` | `NewOrganizationIAMBinding` |
+| Folder | `NewFolderIAMMember` | `NewFolderIAMBinding` |
+| Project | `NewProjectIAMMember` | `NewProjectIAMBinding` |
+| Service Account | `NewServiceAccountIAMMember` | `NewServiceAccountIAMBinding` |
+| Billing Account | `NewBillingIAMMember` | `NewBillingIAMBinding` |
+
+### Why Scope-Specific Constructors?
+
+Each constructor registers a **distinct Pulumi component type** (e.g., `pkg:iam:ProjectIAMMember` vs `pkg:iam:FolderIAMMember`). This provides:
+
+- **Compile-time safety** — no magic strings for scope selection; incorrect usage fails at build time
+- **Blast radius isolation** — a bug in folder IAM logic cannot affect project IAM bindings
+- **Scope-specific Args** — each struct contains only the fields relevant to that scope (e.g., `ProjectID` vs `OrgID`)
+- **Independent state** — each scope has isolated Pulumi state, preventing cross-scope corruption
 
 ### Additive vs. Authoritative
 
-| Mode | Component | Behavior | When to Use |
-|------|-----------|----------|-------------|
-| **Additive** | `IAMMember` | Adds a single member to a role; does not affect other members | Most environments — safe to use alongside manual IAM |
-| **Authoritative** | `IAMBinding` | Sets the complete list of members for a role; **removes unlisted members** | Strict environments where IAM must be fully managed by code |
+| Mode | Constructor | Behavior | When to Use |
+|------|-------------|----------|-------------|
+| **Additive** | `New<Scope>IAMMember` | Adds a single member to a role; does not affect other members | Most environments — safe to use alongside manual IAM |
+| **Authoritative** | `New<Scope>IAMBinding` | Sets the complete list of members for a role; **removes unlisted members** | Strict environments where IAM must be fully managed by code |
 
-> ⚠️ **Warning:** `IAMBinding` will remove any members assigned to the specified role that are not included in the `Members` list. Use with extreme caution in production.
-
-## Supported Scopes
-
-| `ParentType` | `ParentID` Expected | Underlying GCP Resource |
-|--------------|--------------------|-----------------------|
-| `"organization"` | Organization ID (numeric) | `organizations.IAMMember` / `IAMBinding` |
-| `"folder"` | Folder ID (numeric or `folders/ID`) | `organizations.FolderIamMember` / `FolderIamBinding` |
-| `"project"` | Project ID (string) | `projects.IAMMember` / `IAMBinding` |
-| `"serviceAccount"` | Service account ID (email or resource name) | `serviceaccount.IAMMember` / `IAMBinding` |
-| `"billing"` | Billing account ID (`XXXXXX-XXXXXX-XXXXXX`) | `billing.AccountIamMember` / `AccountIamBinding` |
+> ⚠️ **Warning:** `IAMBinding` constructors will remove any members assigned to the specified role that are not included in the `Members` list. Use with extreme caution in production.
 
 ## API Reference
 
-### `IAMMemberArgs` (Additive)
-
-| Field | Type | Required | Description |
-|-------|------|:--------:|-------------|
-| `ParentID` | `pulumi.StringInput` | ✅ | The ID of the parent resource |
-| `ParentType` | `string` (plain) | ✅ | One of: `organization`, `folder`, `project`, `serviceAccount`, `billing` |
-| `Role` | `pulumi.StringInput` | ✅ | The IAM role to grant |
-| `Member` | `pulumi.StringInput` | ✅ | The member identity (e.g., `user:alice@example.com`, `serviceAccount:sa@project.iam.gserviceaccount.com`) |
-
-### `IAMBindingArgs` (Authoritative)
-
-| Field | Type | Required | Description |
-|-------|------|:--------:|-------------|
-| `ParentID` | `pulumi.StringInput` | ✅ | The ID of the parent resource |
-| `ParentType` | `string` (plain) | ✅ | One of: `organization`, `folder`, `project`, `serviceAccount`, `billing` |
-| `Role` | `pulumi.StringInput` | ✅ | The IAM role to bind |
-| `Members` | `pulumi.StringArrayInput` | ✅ | The complete list of members for this role |
-
-### Constructors
+### Organization Scope
 
 ```go
-func NewIAMMember(ctx *pulumi.Context, name string, args *IAMMemberArgs, opts ...pulumi.ResourceOption) (*IAMMember, error)
-func NewIAMBinding(ctx *pulumi.Context, name string, args *IAMBindingArgs, opts ...pulumi.ResourceOption) (*IAMBinding, error)
+func NewOrganizationIAMMember(ctx, name, &OrganizationIAMMemberArgs{
+    OrgID:  pulumi.StringInput,  // Organization ID (numeric)
+    Role:   pulumi.StringInput,
+    Member: pulumi.StringInput,
+})
+
+func NewOrganizationIAMBinding(ctx, name, &OrganizationIAMBindingArgs{
+    OrgID:   pulumi.StringInput,
+    Role:    pulumi.StringInput,
+    Members: pulumi.StringArrayInput,
+})
+```
+
+### Folder Scope
+
+```go
+func NewFolderIAMMember(ctx, name, &FolderIAMMemberArgs{
+    FolderID: pulumi.StringInput,  // Folder ID (numeric or "folders/ID")
+    Role:     pulumi.StringInput,
+    Member:   pulumi.StringInput,
+})
+
+func NewFolderIAMBinding(ctx, name, &FolderIAMBindingArgs{
+    FolderID: pulumi.StringInput,
+    Role:     pulumi.StringInput,
+    Members:  pulumi.StringArrayInput,
+})
+```
+
+### Project Scope
+
+```go
+func NewProjectIAMMember(ctx, name, &ProjectIAMMemberArgs{
+    ProjectID: pulumi.StringInput,  // Project ID (string)
+    Role:      pulumi.StringInput,
+    Member:    pulumi.StringInput,
+})
+
+func NewProjectIAMBinding(ctx, name, &ProjectIAMBindingArgs{
+    ProjectID: pulumi.StringInput,
+    Role:      pulumi.StringInput,
+    Members:   pulumi.StringArrayInput,
+})
+```
+
+### Service Account Scope
+
+```go
+func NewServiceAccountIAMMember(ctx, name, &ServiceAccountIAMMemberArgs{
+    ServiceAccountID: pulumi.StringInput,  // SA email or resource name
+    Role:             pulumi.StringInput,
+    Member:           pulumi.StringInput,
+})
+
+func NewServiceAccountIAMBinding(ctx, name, &ServiceAccountIAMBindingArgs{
+    ServiceAccountID: pulumi.StringInput,
+    Role:             pulumi.StringInput,
+    Members:          pulumi.StringArrayInput,
+})
+```
+
+### Billing Account Scope
+
+```go
+func NewBillingIAMMember(ctx, name, &BillingIAMMemberArgs{
+    BillingAccountID: pulumi.StringInput,  // "XXXXXX-XXXXXX-XXXXXX"
+    Role:             pulumi.StringInput,
+    Member:           pulumi.StringInput,
+})
+
+func NewBillingIAMBinding(ctx, name, &BillingIAMBindingArgs{
+    BillingAccountID: pulumi.StringInput,
+    Role:             pulumi.StringInput,
+    Members:          pulumi.StringArrayInput,
+})
 ```
 
 ## Examples
@@ -59,32 +119,29 @@ func NewIAMBinding(ctx *pulumi.Context, name string, args *IAMBindingArgs, opts 
 ### Grant a Service Account Org-Level Access
 
 ```go
-iam.NewIAMMember(ctx, "sa-org-admin", &iam.IAMMemberArgs{
-    ParentID:   pulumi.String("123456789"),
-    ParentType: "organization",
-    Role:       pulumi.String("roles/resourcemanager.organizationAdmin"),
-    Member:     pulumi.Sprintf("serviceAccount:%s", sa.Email),
+iam.NewOrganizationIAMMember(ctx, "sa-org-admin", &iam.OrganizationIAMMemberArgs{
+    OrgID:  pulumi.String("123456789"),
+    Role:   pulumi.String("roles/resourcemanager.organizationAdmin"),
+    Member: pulumi.Sprintf("serviceAccount:%s", sa.Email),
 })
 ```
 
 ### Grant Project-Level Access Using Outputs
 
 ```go
-iam.NewIAMMember(ctx, "project-viewer", &iam.IAMMemberArgs{
-    ParentID:   project.Project.ProjectId,  // pulumi.StringOutput
-    ParentType: "project",
-    Role:       pulumi.String("roles/viewer"),
-    Member:     pulumi.String("group:developers@example.com"),
+iam.NewProjectIAMMember(ctx, "project-viewer", &iam.ProjectIAMMemberArgs{
+    ProjectID: project.Project.ProjectId,  // pulumi.StringOutput
+    Role:      pulumi.String("roles/viewer"),
+    Member:    pulumi.String("group:developers@example.com"),
 })
 ```
 
 ### Authoritative Binding on a Folder
 
 ```go
-iam.NewIAMBinding(ctx, "folder-admins", &iam.IAMBindingArgs{
-    ParentID:   folder.ID(),
-    ParentType: "folder",
-    Role:       pulumi.String("roles/resourcemanager.folderAdmin"),
+iam.NewFolderIAMBinding(ctx, "folder-admins", &iam.FolderIAMBindingArgs{
+    FolderID: folder.ID(),
+    Role:     pulumi.String("roles/resourcemanager.folderAdmin"),
     Members: pulumi.StringArray{
         pulumi.String("user:admin@example.com"),
         pulumi.Sprintf("serviceAccount:%s", bootstrapSA.Email),
@@ -92,21 +149,26 @@ iam.NewIAMBinding(ctx, "folder-admins", &iam.IAMBindingArgs{
 })
 ```
 
-### Billing Account Binding
+### Service Account Self-Impersonation
 
 ```go
-iam.NewIAMMember(ctx, "billing-user", &iam.IAMMemberArgs{
-    ParentID:   pulumi.String("XXXXXX-XXXXXX-XXXXXX"),
-    ParentType: "billing",
-    Role:       pulumi.String("roles/billing.user"),
-    Member:     pulumi.Sprintf("serviceAccount:%s", sa.Email),
+iam.NewServiceAccountIAMMember(ctx, "sa-self-impersonate", &iam.ServiceAccountIAMMemberArgs{
+    ServiceAccountID: sa.Name,
+    Role:             pulumi.String("roles/iam.serviceAccountTokenCreator"),
+    Member:           pulumi.Sprintf("serviceAccount:%s", sa.Email),
 })
 ```
 
-## Error Handling
+### Billing Account Binding
 
-Passing an unsupported `ParentType` returns an error:
-
-```text
-unsupported IAM parent type: "unknown" (expected organization, folder, project, serviceAccount, or billing)
+```go
+iam.NewBillingIAMMember(ctx, "billing-user", &iam.BillingIAMMemberArgs{
+    BillingAccountID: pulumi.String("XXXXXX-XXXXXX-XXXXXX"),
+    Role:             pulumi.String("roles/billing.user"),
+    Member:           pulumi.Sprintf("serviceAccount:%s", sa.Email),
+})
 ```
+
+## Deprecated API
+
+The unified `NewIAMMember` and `NewIAMBinding` constructors (with `ParentType` string dispatch) are still available for backward compatibility but are deprecated. Migrate to the scope-specific constructors above.
