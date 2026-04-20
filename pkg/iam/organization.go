@@ -17,6 +17,8 @@
 package iam
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/organizations"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -38,6 +40,12 @@ type OrganizationIAMMember struct {
 // NewOrganizationIAMMember creates an additive IAM member binding at the
 // organization scope.
 func NewOrganizationIAMMember(ctx *pulumi.Context, name string, args *OrganizationIAMMemberArgs, opts ...pulumi.ResourceOption) (*OrganizationIAMMember, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &OrganizationIAMMember{}
 	err := ctx.RegisterComponentResource("pkg:iam:OrganizationIAMMember", name, component, opts...)
 	if err != nil {
@@ -74,6 +82,12 @@ type OrganizationIAMBinding struct {
 // organization scope. It will REMOVE any members assigned to this role that
 // are not included in the Members list.
 func NewOrganizationIAMBinding(ctx *pulumi.Context, name string, args *OrganizationIAMBindingArgs, opts ...pulumi.ResourceOption) (*OrganizationIAMBinding, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &OrganizationIAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:iam:OrganizationIAMBinding", name, component, opts...)
 	if err != nil {

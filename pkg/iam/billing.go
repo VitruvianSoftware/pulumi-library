@@ -17,6 +17,8 @@
 package iam
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/billing"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -38,6 +40,9 @@ type BillingIAMMember struct {
 // NewBillingIAMMember creates an additive IAM member binding at the
 // billing account scope.
 func NewBillingIAMMember(ctx *pulumi.Context, name string, args *BillingIAMMemberArgs, opts ...pulumi.ResourceOption) (*BillingIAMMember, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &BillingIAMMember{}
 	err := ctx.RegisterComponentResource("pkg:iam:BillingIAMMember", name, component, opts...)
 	if err != nil {
@@ -74,6 +79,9 @@ type BillingIAMBinding struct {
 // billing account scope. It will REMOVE any members assigned to this role
 // that are not included in the Members list.
 func NewBillingIAMBinding(ctx *pulumi.Context, name string, args *BillingIAMBindingArgs, opts ...pulumi.ResourceOption) (*BillingIAMBinding, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &BillingIAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:iam:BillingIAMBinding", name, component, opts...)
 	if err != nil {

@@ -55,3 +55,35 @@ func TestNewProjectIAMBinding(t *testing.T) {
 
 	tracker.RequireType(t, "gcp:projects/iAMBinding:IAMBinding", 1)
 }
+
+func TestNewProjectIAMMember_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProjectIAMMember(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewProjectIAMBinding_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProjectIAMBinding(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewProjectIAMMember_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProjectIAMMember(ctx, "", &ProjectIAMMemberArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
+
+func TestNewProjectIAMBinding_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProjectIAMBinding(ctx, "", &ProjectIAMBindingArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}

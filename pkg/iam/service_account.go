@@ -17,6 +17,8 @@
 package iam
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/serviceaccount"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -38,6 +40,9 @@ type ServiceAccountIAMMember struct {
 // NewServiceAccountIAMMember creates an additive IAM member binding at the
 // service account scope.
 func NewServiceAccountIAMMember(ctx *pulumi.Context, name string, args *ServiceAccountIAMMemberArgs, opts ...pulumi.ResourceOption) (*ServiceAccountIAMMember, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &ServiceAccountIAMMember{}
 	err := ctx.RegisterComponentResource("pkg:iam:ServiceAccountIAMMember", name, component, opts...)
 	if err != nil {
@@ -74,6 +79,9 @@ type ServiceAccountIAMBinding struct {
 // service account scope. It will REMOVE any members assigned to this role
 // that are not included in the Members list.
 func NewServiceAccountIAMBinding(ctx *pulumi.Context, name string, args *ServiceAccountIAMBindingArgs, opts ...pulumi.ResourceOption) (*ServiceAccountIAMBinding, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &ServiceAccountIAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:iam:ServiceAccountIAMBinding", name, component, opts...)
 	if err != nil {

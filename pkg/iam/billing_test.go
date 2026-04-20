@@ -55,3 +55,35 @@ func TestNewBillingIAMBinding(t *testing.T) {
 
 	tracker.RequireType(t, "gcp:billing/accountIamBinding:AccountIamBinding", 1)
 }
+
+func TestNewBillingIAMMember_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewBillingIAMMember(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewBillingIAMBinding_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewBillingIAMBinding(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewBillingIAMMember_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewBillingIAMMember(ctx, "", &BillingIAMMemberArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
+
+func TestNewBillingIAMBinding_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewBillingIAMBinding(ctx, "", &BillingIAMBindingArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}

@@ -61,3 +61,39 @@ func TestNewOrganizationIAMBinding(t *testing.T) {
 	bindings := tracker.RequireType(t, "gcp:organizations/iAMBinding:IAMBinding", 1)
 	assert.Equal(t, "123456", bindings[0].Inputs["orgId"].StringValue())
 }
+
+func TestNewOrganizationIAMMember_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewOrganizationIAMMember(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewOrganizationIAMBinding_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewOrganizationIAMBinding(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewOrganizationIAMMember_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewOrganizationIAMMember(ctx, "", &OrganizationIAMMemberArgs{
+			OrgID:  pulumi.String("123456"),
+			Role:   pulumi.String("roles/viewer"),
+			Member: pulumi.String("user:test@example.com"),
+		})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
+
+func TestNewOrganizationIAMBinding_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewOrganizationIAMBinding(ctx, "", &OrganizationIAMBindingArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}

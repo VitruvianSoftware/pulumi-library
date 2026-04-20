@@ -17,6 +17,8 @@
 package iam
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/projects"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -38,6 +40,9 @@ type ProjectIAMMember struct {
 // NewProjectIAMMember creates an additive IAM member binding at the
 // project scope.
 func NewProjectIAMMember(ctx *pulumi.Context, name string, args *ProjectIAMMemberArgs, opts ...pulumi.ResourceOption) (*ProjectIAMMember, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &ProjectIAMMember{}
 	err := ctx.RegisterComponentResource("pkg:iam:ProjectIAMMember", name, component, opts...)
 	if err != nil {
@@ -74,6 +79,9 @@ type ProjectIAMBinding struct {
 // project scope. It will REMOVE any members assigned to this role that
 // are not included in the Members list.
 func NewProjectIAMBinding(ctx *pulumi.Context, name string, args *ProjectIAMBindingArgs, opts ...pulumi.ResourceOption) (*ProjectIAMBinding, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &ProjectIAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:iam:ProjectIAMBinding", name, component, opts...)
 	if err != nil {

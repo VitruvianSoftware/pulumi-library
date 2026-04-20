@@ -53,3 +53,35 @@ func TestNewServiceAccountIAMBinding(t *testing.T) {
 
 	tracker.RequireType(t, "gcp:serviceaccount/iAMBinding:IAMBinding", 1)
 }
+
+func TestNewServiceAccountIAMMember_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewServiceAccountIAMMember(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewServiceAccountIAMBinding_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewServiceAccountIAMBinding(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewServiceAccountIAMMember_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewServiceAccountIAMMember(ctx, "", &ServiceAccountIAMMemberArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
+
+func TestNewServiceAccountIAMBinding_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewServiceAccountIAMBinding(ctx, "", &ServiceAccountIAMBindingArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}

@@ -17,6 +17,8 @@
 package iam
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -38,6 +40,9 @@ type FolderIAMMember struct {
 // NewFolderIAMMember creates an additive IAM member binding at the
 // folder scope.
 func NewFolderIAMMember(ctx *pulumi.Context, name string, args *FolderIAMMemberArgs, opts ...pulumi.ResourceOption) (*FolderIAMMember, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &FolderIAMMember{}
 	err := ctx.RegisterComponentResource("pkg:iam:FolderIAMMember", name, component, opts...)
 	if err != nil {
@@ -74,6 +79,9 @@ type FolderIAMBinding struct {
 // folder scope. It will REMOVE any members assigned to this role that
 // are not included in the Members list.
 func NewFolderIAMBinding(ctx *pulumi.Context, name string, args *FolderIAMBindingArgs, opts ...pulumi.ResourceOption) (*FolderIAMBinding, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args cannot be nil")
+	}
 	component := &FolderIAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:iam:FolderIAMBinding", name, component, opts...)
 	if err != nil {

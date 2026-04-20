@@ -55,3 +55,35 @@ func TestNewFolderIAMBinding(t *testing.T) {
 
 	tracker.RequireType(t, "gcp:folder/iAMBinding:IAMBinding", 1)
 }
+
+func TestNewFolderIAMMember_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewFolderIAMMember(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewFolderIAMBinding_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewFolderIAMBinding(ctx, "test", nil)
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.ErrorContains(t, err, "args cannot be nil")
+}
+
+func TestNewFolderIAMMember_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewFolderIAMMember(ctx, "", &FolderIAMMemberArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
+
+func TestNewFolderIAMBinding_EmptyName(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewFolderIAMBinding(ctx, "", &FolderIAMBindingArgs{})
+		return err
+	}, pulumi.WithMocks("test", "test", testutil.NewTracker()))
+	require.Error(t, err)
+}
