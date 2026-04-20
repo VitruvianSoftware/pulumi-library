@@ -22,7 +22,9 @@ import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
 
 | Package | Import Path | Description | Docs |
 |---------|-------------|-------------|------|
+| **Bootstrap** | `pkg/bootstrap` | Core foundation seed project, KMS keys/rings, encrypted state buckets, and base organization policies | [README](./pkg/bootstrap/README.md) |
 | **Project** | `pkg/project` | Project factory: creates GCP projects with API enablement, billing association, and automatic default-VPC suppression | [README](./pkg/project/README.md) |
+| **Group** | `pkg/group` | Google Workspace / Cloud Identity group provisioning with structured ownership and dynamic typing | [README](./pkg/group/README.md) |
 | **IAM** | `pkg/iam` | Multi-scope IAM bindings (additive + authoritative) at organization, folder, project, service account, and billing account scopes | [README](./pkg/iam/README.md) |
 | **Policy** | `pkg/policy` | Organization policy constraint enforcement (boolean + list) using the v2 Org Policy API | [README](./pkg/policy/README.md) |
 | **Networking** | `pkg/networking` | VPC networks with subnets (secondary ranges, flow logs, Private Google Access), and optional Private Service Access | [README](./pkg/networking/README.md) |
@@ -96,6 +98,24 @@ Each package is a single Go file. This is intentional — each component is smal
 
 ## Usage Examples
 
+### Bootstrap the Foundation
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/bootstrap"
+
+seed, err := bootstrap.NewBootstrap(ctx, "foundation-seed", &bootstrap.BootstrapArgs{
+    OrgID:          "1234567890",
+    BillingAccount: "XXXXXX-XXXXXX-XXXXXX",
+    ProjectPrefix:  "prj",
+    DefaultRegion:  "us-central1",
+    StateBucketIAMMembers: []pulumi.StringInput{
+        pulumi.String("group:gcp-organization-admins@example.com"),
+    },
+})
+// seed.SeedProject is the underlying project component
+// seed.StateBucketName is the generated KMS-encrypted GCS bucket
+```
+
 ### Create a Project with APIs
 
 ```go
@@ -155,6 +175,24 @@ iam.NewIAMBinding(ctx, "project-viewers", &iam.IAMBindingArgs{
         pulumi.String("user:bob@example.com"),
     },
 })
+```
+
+### Provision Google Workspace Groups
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/group"
+
+g, err := group.NewGroup(ctx, "org-admins", &group.GroupArgs{
+    ID:          "gcp-org-admins@example.com",
+    DisplayName: "GCP Organization Admins",
+    CustomerID:  pulumi.String("C01234abc"),
+    Types:       []string{"default", "security"},
+    Owners:      []string{"admin-owner@example.com"},
+    Managers:    []string{"admin-manager@example.com"},
+    Members:     []string{"admin-user@example.com"},
+})
+// g.GroupResource is the underlying Cloud Identity group
+// g.GroupEmail is the managed group email
 ```
 
 ### Enforce Organization Policies
