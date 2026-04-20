@@ -19,18 +19,17 @@ package iam
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/billing"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/folder"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/organizations"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/projects"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/serviceaccount"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// IAMMemberArgs configures an additive IAM member binding.
-// ParentType is a plain string (not a Pulumi Input) because the scope type is
-// always known at plan time. This avoids the ApplyT anti-pattern where
-// resources created inside callbacks are invisible to the Pulumi engine.
+// IAMMemberArgs is the legacy unified args struct.
+//
+// Deprecated: Use the scope-specific constructors instead:
+//   - iam.NewOrganizationIAMMember
+//   - iam.NewFolderIAMMember
+//   - iam.NewProjectIAMMember
+//   - iam.NewServiceAccountIAMMember
+//   - iam.NewBillingIAMMember
 type IAMMemberArgs struct {
 	ParentID   pulumi.StringInput
 	ParentType string // "organization", "folder", "project", "serviceAccount", "billing"
@@ -38,13 +37,21 @@ type IAMMemberArgs struct {
 	Member     pulumi.StringInput
 }
 
+// IAMMember is the legacy unified component.
+//
+// Deprecated: Use the scope-specific types instead.
 type IAMMember struct {
 	pulumi.ResourceState
 }
 
 // NewIAMMember creates an additive IAM member binding at the specified scope.
-// The underlying GCP resource is created directly in the resource graph,
-// ensuring proper state tracking, dependency ordering, and error propagation.
+//
+// Deprecated: Use the scope-specific constructors instead:
+//   - iam.NewOrganizationIAMMember
+//   - iam.NewFolderIAMMember
+//   - iam.NewProjectIAMMember
+//   - iam.NewServiceAccountIAMMember
+//   - iam.NewBillingIAMMember
 func NewIAMMember(ctx *pulumi.Context, name string, args *IAMMemberArgs, opts ...pulumi.ResourceOption) (*IAMMember, error) {
 	component := &IAMMember{}
 	err := ctx.RegisterComponentResource("pkg:index:IAMMember", name, component, opts...)
@@ -52,39 +59,37 @@ func NewIAMMember(ctx *pulumi.Context, name string, args *IAMMemberArgs, opts ..
 		return nil, err
 	}
 
-	childOpts := append(opts, pulumi.Parent(component))
-
 	switch args.ParentType {
 	case "organization":
-		_, err = organizations.NewIAMMember(ctx, name+"-member", &organizations.IAMMemberArgs{
-			OrgId:  args.ParentID,
+		_, err = NewOrganizationIAMMember(ctx, name+"-delegated", &OrganizationIAMMemberArgs{
+			OrgID:  args.ParentID,
 			Role:   args.Role,
 			Member: args.Member,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	case "folder":
-		_, err = folder.NewIAMMember(ctx, name+"-member", &folder.IAMMemberArgs{
-			Folder: args.ParentID,
-			Role:   args.Role,
-			Member: args.Member,
-		}, childOpts...)
+		_, err = NewFolderIAMMember(ctx, name+"-delegated", &FolderIAMMemberArgs{
+			FolderID: args.ParentID,
+			Role:     args.Role,
+			Member:   args.Member,
+		}, pulumi.Parent(component))
 	case "project":
-		_, err = projects.NewIAMMember(ctx, name+"-member", &projects.IAMMemberArgs{
-			Project: args.ParentID,
-			Role:    args.Role,
-			Member:  args.Member,
-		}, childOpts...)
+		_, err = NewProjectIAMMember(ctx, name+"-delegated", &ProjectIAMMemberArgs{
+			ProjectID: args.ParentID,
+			Role:      args.Role,
+			Member:    args.Member,
+		}, pulumi.Parent(component))
 	case "serviceAccount":
-		_, err = serviceaccount.NewIAMMember(ctx, name+"-member", &serviceaccount.IAMMemberArgs{
-			ServiceAccountId: args.ParentID,
+		_, err = NewServiceAccountIAMMember(ctx, name+"-delegated", &ServiceAccountIAMMemberArgs{
+			ServiceAccountID: args.ParentID,
 			Role:             args.Role,
 			Member:           args.Member,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	case "billing":
-		_, err = billing.NewAccountIamMember(ctx, name+"-member", &billing.AccountIamMemberArgs{
-			BillingAccountId: args.ParentID,
+		_, err = NewBillingIAMMember(ctx, name+"-delegated", &BillingIAMMemberArgs{
+			BillingAccountID: args.ParentID,
 			Role:             args.Role,
 			Member:           args.Member,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	default:
 		return nil, fmt.Errorf("unsupported IAM parent type: %q (expected organization, folder, project, serviceAccount, or billing)", args.ParentType)
 	}
@@ -97,7 +102,14 @@ func NewIAMMember(ctx *pulumi.Context, name string, args *IAMMemberArgs, opts ..
 	return component, nil
 }
 
-// IAMBindingArgs configures an authoritative IAM binding for a specific role.
+// IAMBindingArgs is the legacy unified args struct for authoritative bindings.
+//
+// Deprecated: Use the scope-specific constructors instead:
+//   - iam.NewOrganizationIAMBinding
+//   - iam.NewFolderIAMBinding
+//   - iam.NewProjectIAMBinding
+//   - iam.NewServiceAccountIAMBinding
+//   - iam.NewBillingIAMBinding
 type IAMBindingArgs struct {
 	ParentID   pulumi.StringInput
 	ParentType string // "organization", "folder", "project", "serviceAccount", "billing"
@@ -105,6 +117,9 @@ type IAMBindingArgs struct {
 	Members    pulumi.StringArrayInput
 }
 
+// IAMBinding is the legacy unified component for authoritative bindings.
+//
+// Deprecated: Use the scope-specific types instead.
 type IAMBinding struct {
 	pulumi.ResourceState
 }
@@ -112,6 +127,13 @@ type IAMBinding struct {
 // NewIAMBinding creates an authoritative IAM binding for a specific role at
 // the target scope. It will remove any members assigned to this role outside
 // of this binding — use with caution.
+//
+// Deprecated: Use the scope-specific constructors instead:
+//   - iam.NewOrganizationIAMBinding
+//   - iam.NewFolderIAMBinding
+//   - iam.NewProjectIAMBinding
+//   - iam.NewServiceAccountIAMBinding
+//   - iam.NewBillingIAMBinding
 func NewIAMBinding(ctx *pulumi.Context, name string, args *IAMBindingArgs, opts ...pulumi.ResourceOption) (*IAMBinding, error) {
 	component := &IAMBinding{}
 	err := ctx.RegisterComponentResource("pkg:index:IAMBinding", name, component, opts...)
@@ -119,39 +141,37 @@ func NewIAMBinding(ctx *pulumi.Context, name string, args *IAMBindingArgs, opts 
 		return nil, err
 	}
 
-	childOpts := append(opts, pulumi.Parent(component))
-
 	switch args.ParentType {
 	case "organization":
-		_, err = organizations.NewIAMBinding(ctx, name+"-binding", &organizations.IAMBindingArgs{
-			OrgId:   args.ParentID,
+		_, err = NewOrganizationIAMBinding(ctx, name+"-delegated", &OrganizationIAMBindingArgs{
+			OrgID:   args.ParentID,
 			Role:    args.Role,
 			Members: args.Members,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	case "folder":
-		_, err = folder.NewIAMBinding(ctx, name+"-binding", &folder.IAMBindingArgs{
-			Folder:  args.ParentID,
-			Role:    args.Role,
-			Members: args.Members,
-		}, childOpts...)
+		_, err = NewFolderIAMBinding(ctx, name+"-delegated", &FolderIAMBindingArgs{
+			FolderID: args.ParentID,
+			Role:     args.Role,
+			Members:  args.Members,
+		}, pulumi.Parent(component))
 	case "project":
-		_, err = projects.NewIAMBinding(ctx, name+"-binding", &projects.IAMBindingArgs{
-			Project: args.ParentID,
-			Role:    args.Role,
-			Members: args.Members,
-		}, childOpts...)
+		_, err = NewProjectIAMBinding(ctx, name+"-delegated", &ProjectIAMBindingArgs{
+			ProjectID: args.ParentID,
+			Role:      args.Role,
+			Members:   args.Members,
+		}, pulumi.Parent(component))
 	case "serviceAccount":
-		_, err = serviceaccount.NewIAMBinding(ctx, name+"-binding", &serviceaccount.IAMBindingArgs{
-			ServiceAccountId: args.ParentID,
+		_, err = NewServiceAccountIAMBinding(ctx, name+"-delegated", &ServiceAccountIAMBindingArgs{
+			ServiceAccountID: args.ParentID,
 			Role:             args.Role,
 			Members:          args.Members,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	case "billing":
-		_, err = billing.NewAccountIamBinding(ctx, name+"-binding", &billing.AccountIamBindingArgs{
-			BillingAccountId: args.ParentID,
+		_, err = NewBillingIAMBinding(ctx, name+"-delegated", &BillingIAMBindingArgs{
+			BillingAccountID: args.ParentID,
 			Role:             args.Role,
 			Members:          args.Members,
-		}, childOpts...)
+		}, pulumi.Parent(component))
 	default:
 		return nil, fmt.Errorf("unsupported IAM parent type: %q", args.ParentType)
 	}

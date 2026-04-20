@@ -25,7 +25,7 @@ import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
 | **Bootstrap** | `pkg/bootstrap` | Core foundation seed project, KMS keys/rings, encrypted state buckets, and base organization policies | [README](./pkg/bootstrap/README.md) |
 | **Project** | `pkg/project` | Project factory: creates GCP projects with API enablement, billing association, and automatic default-VPC suppression | [README](./pkg/project/README.md) |
 | **Group** | `pkg/group` | Google Workspace / Cloud Identity group provisioning with structured ownership and dynamic typing | [README](./pkg/group/README.md) |
-| **IAM** | `pkg/iam` | Multi-scope IAM bindings (additive + authoritative) at organization, folder, project, service account, and billing account scopes | [README](./pkg/iam/README.md) |
+| **IAM** | `pkg/iam` | Scope-isolated IAM bindings (additive + authoritative) with dedicated constructors per GCP scope: organization, folder, project, service account, and billing account | [README](./pkg/iam/README.md) |
 | **Policy** | `pkg/policy` | Organization policy constraint enforcement (boolean + list) using the v2 Org Policy API | [README](./pkg/policy/README.md) |
 | **Networking** | `pkg/networking` | VPC networks with subnets (secondary ranges, flow logs, Private Google Access), and optional Private Service Access | [README](./pkg/networking/README.md) |
 | **App** | `pkg/app` | Cloud Run v2 service deployment with environment variables, custom service accounts, and ingress control | [README](./pkg/app/README.md) |
@@ -59,42 +59,48 @@ pkg:index:Project ("seed-project")
 
 ## Design Principles
 
-### 1. Plan-Time Values for Dispatch Fields
+### 1. Scope-Isolated Constructors
 
-Fields that control *which* GCP resource type to create (like `IAMMemberArgs.ParentType` or `ProjectArgs.ActivateApis`) use **plain Go types** (`string`, `[]string`) rather than `pulumi.StringInput`.
+When a package operates across multiple GCP scopes (e.g., IAM at organization, folder, project levels), each scope gets a **dedicated constructor** with a scope-specific `Args` struct. This replaces the earlier strategy-pattern approach that used a `ParentType` string for runtime dispatch.
 
-**Why:** This ensures resources are registered directly in the Pulumi state graph with proper dependency ordering and error propagation — not inside `ApplyT` callbacks where errors are silently swallowed and resources are invisible to the engine.
+**Why:** Scope isolation provides compile-time safety (no magic strings), independent Pulumi component types (blast radius isolation), and Args structs that contain only scope-relevant fields.
 
 ```go
-// ✅ Correct: ParentType is a plain string
-iam.NewIAMMember(ctx, "binding", &iam.IAMMemberArgs{
-    ParentType: "organization",              // plain Go string
-    ParentID:   pulumi.String(orgID),         // Pulumi Input
-    Role:       pulumi.String("roles/viewer"),
-    Member:     sa.Email,                     // Pulumi Output
+// ✅ Correct: scope-specific constructor with typed Args
+iam.NewOrganizationIAMMember(ctx, "org-admin", &iam.OrganizationIAMMemberArgs{
+    OrgID:  pulumi.String(orgID),
+    Role:   pulumi.String("roles/viewer"),
+    Member: sa.Email,
 })
 
-// ❌ Wrong: would require ApplyT to resolve the type at runtime
-iam.NewIAMMember(ctx, "binding", &iam.IAMMemberArgs{
-    ParentType: pulumi.String("organization"), // DON'T do this
+// ❌ Deprecated: unified constructor with magic string dispatch
+iam.NewIAMMember(ctx, "org-admin", &iam.IAMMemberArgs{
+    ParentType: "organization",  // magic string, runtime error on typo
+    ParentID:   pulumi.String(orgID),
     ...
 })
 ```
 
-### 2. Pulumi Inputs for GCP Resource Fields
+### 2. Plan-Time Values for Dispatch Fields
 
-Fields that map directly to GCP resource arguments (like `ParentID`, `Role`, `Member`) remain `pulumi.StringInput` so they can accept outputs from other resources, enabling proper dependency chains.
+Fields that control *which* GCP resource type to create (like `ProjectArgs.ActivateApis`) use **plain Go types** (`string`, `[]string`) rather than `pulumi.StringInput`.
 
-### 3. Sensible Security Defaults
+**Why:** This ensures resources are registered directly in the Pulumi state graph with proper dependency ordering and error propagation — not inside `ApplyT` callbacks where errors are silently swallowed and resources are invisible to the engine.
+
+### 3. Pulumi Inputs for GCP Resource Fields
+
+Fields that map directly to GCP resource arguments (like `OrgID`, `Role`, `Member`) remain `pulumi.StringInput` so they can accept outputs from other resources, enabling proper dependency chains.
+
+### 4. Sensible Security Defaults
 
 - `AutoCreateNetwork` defaults to `false` (the default GCP network has overly permissive firewall rules)
 - `PrivateIpGoogleAccess` is always enabled on subnets
 - `DisableOnDestroy` is `false` for API services (prevents orphaned APIs)
 - Subnets enforce flow logging when `FlowLogs: true` is set
 
-### 4. Single-File Components
+### 5. File-Per-Scope Within Packages
 
-Each package is a single Go file. This is intentional — each component is small enough that splitting would add unnecessary navigation cost. As components grow, they can be split while maintaining the same public API.
+Simple packages use a single Go file. Packages that span multiple GCP scopes (like `pkg/iam`) use one file per scope (e.g., `organization.go`, `project.go`, `billing.go`) to keep each scope's logic independent and reviewable.
 
 ## Usage Examples
 
@@ -142,34 +148,30 @@ p, err := project.NewProject(ctx, "my-project", &project.ProjectArgs{
 import "github.com/VitruvianSoftware/pulumi-library/pkg/iam"
 
 // Organization-level (additive)
-iam.NewIAMMember(ctx, "org-admin", &iam.IAMMemberArgs{
-    ParentID:   pulumi.String(orgID),
-    ParentType: "organization",
-    Role:       pulumi.String("roles/resourcemanager.organizationAdmin"),
-    Member:     pulumi.Sprintf("serviceAccount:%s", sa.Email),
+iam.NewOrganizationIAMMember(ctx, "org-admin", &iam.OrganizationIAMMemberArgs{
+    OrgID:  pulumi.String(orgID),
+    Role:   pulumi.String("roles/resourcemanager.organizationAdmin"),
+    Member: pulumi.Sprintf("serviceAccount:%s", sa.Email),
 })
 
 // Project-level (additive)
-iam.NewIAMMember(ctx, "project-editor", &iam.IAMMemberArgs{
-    ParentID:   p.Project.ProjectId,
-    ParentType: "project",
-    Role:       pulumi.String("roles/editor"),
-    Member:     pulumi.String("user:admin@example.com"),
+iam.NewProjectIAMMember(ctx, "project-editor", &iam.ProjectIAMMemberArgs{
+    ProjectID: p.Project.ProjectId,
+    Role:      pulumi.String("roles/editor"),
+    Member:    pulumi.String("user:admin@example.com"),
 })
 
 // Billing-level (additive)
-iam.NewIAMMember(ctx, "billing-user", &iam.IAMMemberArgs{
-    ParentID:   pulumi.String("XXXXXX-XXXXXX-XXXXXX"),
-    ParentType: "billing",
-    Role:       pulumi.String("roles/billing.user"),
-    Member:     pulumi.Sprintf("serviceAccount:%s", sa.Email),
+iam.NewBillingIAMMember(ctx, "billing-user", &iam.BillingIAMMemberArgs{
+    BillingAccountID: pulumi.String("XXXXXX-XXXXXX-XXXXXX"),
+    Role:             pulumi.String("roles/billing.user"),
+    Member:           pulumi.Sprintf("serviceAccount:%s", sa.Email),
 })
 
 // Authoritative — REMOVES members not in this list
-iam.NewIAMBinding(ctx, "project-viewers", &iam.IAMBindingArgs{
-    ParentID:   p.Project.ProjectId,
-    ParentType: "project",
-    Role:       pulumi.String("roles/viewer"),
+iam.NewProjectIAMBinding(ctx, "project-viewers", &iam.ProjectIAMBindingArgs{
+    ProjectID: p.Project.ProjectId,
+    Role:      pulumi.String("roles/viewer"),
     Members: pulumi.StringArray{
         pulumi.String("user:alice@example.com"),
         pulumi.String("user:bob@example.com"),
