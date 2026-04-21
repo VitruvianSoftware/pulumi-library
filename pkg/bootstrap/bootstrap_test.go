@@ -229,3 +229,11 @@ func TestNewBootstrap_CloudKMSAPIAutoAdded(t *testing.T) {
 	assert.True(t, apis["cloudkms.googleapis.com"],
 		"cloudkms should be auto-added when encryption is enabled")
 }
+
+func TestAppendIfMissing(t *testing.T) {
+	orig := []string{"foo", "bar"}
+	res1 := appendIfMissing(orig, "foo")
+	assert.Equal(t, orig, res1)
+	res2 := appendIfMissing(orig, "baz")
+	assert.Equal(t, []string{"foo", "bar", "baz"}, res2)
+}

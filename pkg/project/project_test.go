@@ -44,6 +44,9 @@ func TestNewProject_Basic(t *testing.T) {
 			Name:           pulumi.String("Test Project"),
 			FolderID:       pulumi.String("folders/123"),
 			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Budget: &BudgetConfig{
+				Amount: 200,
+			},
 		})
 		require.NoError(t, err)
 		assert.NotNil(t, p)
@@ -58,6 +61,8 @@ func TestNewProject_Basic(t *testing.T) {
 	assert.Equal(t, "prj-test", projects[0].Inputs["projectId"].StringValue())
 	assert.Equal(t, "folders/123", projects[0].Inputs["folderId"].StringValue())
 	assert.Equal(t, "AAAAAA-BBBBBB-CCCCCC", projects[0].Inputs["billingAccount"].StringValue())
+
+	tracker.RequireType(t, "gcp:billing/budget:Budget", 1)
 }
 
 // ---------- AutoCreateNetwork ----------
