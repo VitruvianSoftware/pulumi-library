@@ -52,11 +52,20 @@ func TestNewVpcServiceControls(t *testing.T) {
 			Enforce:            false,
 		})
 		require.NoError(t, err)
+
+		// Test empty members and services
+		_, err = NewVpcServiceControls(ctx, "test-vpcsc-empty", &VpcServiceControlsArgs{
+			PolicyID:           pulumi.String("accessPolicies/12345"),
+			Prefix:             "test-empty",
+			ProjectNumbers:     []string{"123456789"},
+			Enforce:            true,
+		})
+		require.NoError(t, err)
 		
 		return nil
 	}, pulumi.WithMocks("test-project", "test-stack", tracker))
 	require.NoError(t, err)
 
-	tracker.RequireType(t, "gcp:accesscontextmanager/accessLevel:AccessLevel", 4)
-	tracker.RequireType(t, "gcp:accesscontextmanager/servicePerimeter:ServicePerimeter", 2)
+	tracker.RequireType(t, "gcp:accesscontextmanager/accessLevel:AccessLevel", 6)
+	tracker.RequireType(t, "gcp:accesscontextmanager/servicePerimeter:ServicePerimeter", 3)
 }

@@ -51,3 +51,21 @@ func TestNewCloudRouter(t *testing.T) {
 	tracker.RequireType(t, "gcp:compute/routerNat:RouterNat", 1)
 	tracker.RequireType(t, "gcp:compute/address:Address", 2)
 }
+
+func TestNewCloudRouter_NoNat(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewCloudRouter(ctx, "test-router-nonat", &RouterArgs{
+			ProjectID:        pulumi.String("test-proj"),
+			Region:           "us-central1",
+			Network:          pulumi.String("projects/test/global/networks/test-vpc"),
+			BgpAsn:           64514,
+			EnableNat:        false,
+		})
+		require.NoError(t, err)
+		return nil
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	tracker.RequireType(t, "gcp:compute/router:Router", 1)
+}

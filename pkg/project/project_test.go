@@ -47,11 +47,14 @@ func TestNewProject_Basic(t *testing.T) {
 			Budget: &BudgetConfig{
 				Amount: 200,
 			},
+			Lien:                  true,
+			DefaultServiceAccount: "DISABLE",
+			ActivateApis:          []string{"compute.googleapis.com"},
 		})
 		require.NoError(t, err)
 		assert.NotNil(t, p)
 		assert.NotNil(t, p.Project)
-		assert.Empty(t, p.Services, "no APIs specified → no services")
+		assert.NotEmpty(t, p.Services, "APIs specified → services exist")
 		return nil
 	}, pulumi.WithMocks("test-project", "test-stack", tracker))
 	require.NoError(t, err)
@@ -63,6 +66,9 @@ func TestNewProject_Basic(t *testing.T) {
 	assert.Equal(t, "AAAAAA-BBBBBB-CCCCCC", projects[0].Inputs["billingAccount"].StringValue())
 
 	tracker.RequireType(t, "gcp:billing/budget:Budget", 1)
+	tracker.RequireType(t, "gcp:resourcemanager/lien:Lien", 1)
+	tracker.RequireType(t, "gcp:projects/defaultServiceAccounts:DefaultServiceAccounts", 1)
+	tracker.RequireType(t, "gcp:projects/service:Service", 1)
 }
 
 // ---------- AutoCreateNetwork ----------
