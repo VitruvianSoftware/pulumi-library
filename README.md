@@ -27,6 +27,7 @@ import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
 | **Group** | `pkg/group` | Google Workspace / Cloud Identity group provisioning with structured ownership and dynamic typing | [README](./pkg/group/README.md) |
 | **IAM** | `pkg/iam` | Scope-isolated IAM bindings (additive + authoritative) with dedicated constructors per GCP scope: organization, folder, project, service account, and billing account | [README](./pkg/iam/README.md) |
 | **Policy** | `pkg/policy` | Organization policy constraint enforcement (boolean + list) using the v2 Org Policy API | [README](./pkg/policy/README.md) |
+| **Logging** | `pkg/logging` | Centralized log export infrastructure with org/folder sinks, internal project sinks, and destinations | [README](./pkg/logging/README.md) |
 | **Networking** | `pkg/networking` | VPC networks with subnets (secondary ranges, flow logs, Private Google Access), and optional Private Service Access | [README](./pkg/networking/README.md) |
 | **App** | `pkg/app` | Cloud Run v2 service deployment with environment variables, custom service accounts, and ingress control | [README](./pkg/app/README.md) |
 | **Data** | `pkg/data` | BigQuery data platform with raw + curated datasets | [README](./pkg/data/README.md) |
@@ -221,6 +222,23 @@ policy.NewOrgPolicy(ctx, "restrict-domains", &policy.OrgPolicyArgs{
     ParentID:    pulumi.String("organizations/123456"),
     Constraint:  pulumi.String("constraints/iam.allowedPolicyMemberDomains"),
     AllowValues: pulumi.StringArray{pulumi.String("C0xxxxxxx")},
+})
+```
+
+### Export Centralized Logs
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/logging"
+
+cl, err := logging.NewCentralizedLogging(ctx, "logs-export", &logging.CentralizedLoggingArgs{
+    Resources:                   map[string]string{"resource": "organizations/1234567890"},
+    ResourceType:                "organization",
+    LoggingDestinationProjectID: pulumi.String("my-audit-project"),
+    StorageOptions: &logging.StorageOptions{
+        LoggingSinkName:   "sk-c-logging-bkt",
+        LoggingSinkFilter: "logName: /logs/cloudaudit.googleapis.com%2Factivity",
+        Location:          "US",
+    },
 })
 ```
 
