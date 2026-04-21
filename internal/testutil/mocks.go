@@ -73,6 +73,12 @@ func NewTracker() *ResourceTracker {
 	}
 }
 
+// PropMap is a convenience wrapper around resource.NewPropertyMapFromMap.
+// Tests can use this instead of importing the resource package directly.
+func PropMap(m map[string]interface{}) resource.PropertyMap {
+	return resource.NewPropertyMapFromMap(m)
+}
+
 // NewResource implements pulumi.Mock.
 func (t *ResourceTracker) NewResource(args pulumi.MockResourceArgs) (string, resource.PropertyMap, error) {
 	t.mu.Lock()
