@@ -109,6 +109,31 @@ func TestNewProject_AutoCreateNetworkExplicitTrue(t *testing.T) {
 	assert.True(t, projects[0].Inputs["autoCreateNetwork"].BoolValue())
 }
 
+
+
+// ---------- Full Budget ----------
+
+func TestNewProject_FullBudget(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-budget", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-budget"),
+			Name:           pulumi.String("Budget"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Budget: &BudgetConfig{
+				Amount:             100,
+				AlertSpentPercents: []float64{0.8},
+				AlertSpendBasis:    "FORECASTED_SPEND",
+				AlertPubSubTopic:   "projects/my-proj/topics/my-topic",
+			},
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	tracker.RequireType(t, "gcp:billing/budget:Budget", 1)
+}
+
 // ---------- API Activation ----------
 
 func TestNewProject_WithAPIs(t *testing.T) {
