@@ -44,11 +44,17 @@ func TestNewProject_Basic(t *testing.T) {
 			Name:           pulumi.String("Test Project"),
 			FolderID:       pulumi.String("folders/123"),
 			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Budget: &BudgetConfig{
+				Amount: 200,
+			},
+			Lien:                  true,
+			DefaultServiceAccount: "DISABLE",
+			ActivateApis:          []string{"compute.googleapis.com"},
 		})
 		require.NoError(t, err)
 		assert.NotNil(t, p)
 		assert.NotNil(t, p.Project)
-		assert.Empty(t, p.Services, "no APIs specified → no services")
+		assert.NotEmpty(t, p.Services, "APIs specified → services exist")
 		return nil
 	}, pulumi.WithMocks("test-project", "test-stack", tracker))
 	require.NoError(t, err)
@@ -58,6 +64,11 @@ func TestNewProject_Basic(t *testing.T) {
 	assert.Equal(t, "prj-test", projects[0].Inputs["projectId"].StringValue())
 	assert.Equal(t, "folders/123", projects[0].Inputs["folderId"].StringValue())
 	assert.Equal(t, "AAAAAA-BBBBBB-CCCCCC", projects[0].Inputs["billingAccount"].StringValue())
+
+	tracker.RequireType(t, "gcp:billing/budget:Budget", 1)
+	tracker.RequireType(t, "gcp:resourcemanager/lien:Lien", 1)
+	tracker.RequireType(t, "gcp:projects/defaultServiceAccounts:DefaultServiceAccounts", 1)
+	tracker.RequireType(t, "gcp:projects/service:Service", 1)
 }
 
 // ---------- AutoCreateNetwork ----------
@@ -96,6 +107,31 @@ func TestNewProject_AutoCreateNetworkExplicitTrue(t *testing.T) {
 
 	projects := tracker.RequireType(t, gcpProject, 1)
 	assert.True(t, projects[0].Inputs["autoCreateNetwork"].BoolValue())
+}
+
+
+
+// ---------- Full Budget ----------
+
+func TestNewProject_FullBudget(t *testing.T) {
+	tracker := testutil.NewTracker()
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewProject(ctx, "test-budget", &ProjectArgs{
+			ProjectID:      pulumi.String("prj-budget"),
+			Name:           pulumi.String("Budget"),
+			BillingAccount: pulumi.String("AAAAAA-BBBBBB-CCCCCC"),
+			Budget: &BudgetConfig{
+				Amount:             100,
+				AlertSpentPercents: []float64{0.8},
+				AlertSpendBasis:    "FORECASTED_SPEND",
+				AlertPubSubTopic:   "projects/my-proj/topics/my-topic",
+			},
+		})
+		return err
+	}, pulumi.WithMocks("test-project", "test-stack", tracker))
+	require.NoError(t, err)
+
+	tracker.RequireType(t, "gcp:billing/budget:Budget", 1)
 }
 
 // ---------- API Activation ----------

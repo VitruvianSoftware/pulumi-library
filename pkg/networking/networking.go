@@ -34,6 +34,8 @@ type SubnetArgs struct {
 	Region          string
 	CIDR            string
 	SecondaryRanges []SecondaryRangeArgs
+	Role            string
+	Purpose         string
 	FlowLogs        bool
 }
 
@@ -93,6 +95,13 @@ func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts 
 			Network:               vpc.ID(),
 			IpCidrRange:           pulumi.String(s.CIDR),
 			PrivateIpGoogleAccess: pulumi.Bool(true), // Standard for enterprise
+		}
+
+		if s.Purpose != "" {
+			subArgs.Purpose = pulumi.String(s.Purpose)
+		}
+		if s.Role != "" {
+			subArgs.Role = pulumi.String(s.Role)
 		}
 
 		if s.FlowLogs {

@@ -104,3 +104,30 @@ func TestResourceTracker_Call(t *testing.T) {
 	require.NoError(t, err)
 	assert.Empty(t, result)
 }
+
+func TestResourceTracker_Assertions(t *testing.T) {
+	tracker := NewTracker()
+	_, _, err := tracker.NewResource(pulumi.MockResourceArgs{
+		TypeToken: "type-a",
+		Name:      "a1",
+		Inputs: resource.NewPropertyMapFromMap(map[string]interface{}{
+			"foo": "bar",
+			"baz": true,
+		}),
+	})
+	require.NoError(t, err)
+
+	pm := PropMap(map[string]interface{}{"is_mock": true})
+	require.NotNil(t, pm)
+
+	tracker.RequireType(t, "type-a", 1)
+	tracker.AssertInputEquals(t, "a1", "foo", "bar")
+	tracker.AssertInputBool(t, "a1", "baz", true)
+	
+	// Test nonexistent branches with dummy T
+	dummyT := new(testing.T)
+	tracker.AssertInputEquals(dummyT, "nonexistent", "foo", "bar")
+	tracker.AssertInputBool(dummyT, "nonexistent", "baz", true)
+	
+	tracker.Dump(t)
+}
