@@ -44,6 +44,7 @@ func TestNewFirewall(t *testing.T) {
 						SrcFqdns:    []string{"example.com"},
 						SrcAddressGroups: []string{"src-group"},
 						SrcThreatIntelligences: []string{"iplist-known-malicious-ips"},
+						SrcRegionCodes: []string{"US"},
 						Layer4Configs: []FirewallLayer4Config{
 							{IpProtocol: "tcp", Ports: []string{"80", "443"}},
 						},
@@ -89,10 +90,13 @@ func TestNewFirewall(t *testing.T) {
 					DestFqdns:   []string{"dest.com"},
 					DestAddressGroups: []string{"dest-group"},
 					DestThreatIntelligences: []string{"iplist-known-malicious"},
+					DestRegionCodes: []string{"US"},
+					SrcNetworks: []string{"network-a"},
 					Layer4Configs: []FirewallLayer4Config{
 						{IpProtocol: "tcp", Ports: []string{"80"}},
 					},
 				},
+				TargetServiceAccounts: []string{"sa@example.com"},
 			}),
 		})
 		require.NoError(t, err)
