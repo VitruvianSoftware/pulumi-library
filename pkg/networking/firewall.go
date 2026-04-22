@@ -44,7 +44,7 @@ type FirewallRuleMatch struct {
 	SrcRegionCodes          []string
 	SrcThreatIntelligences  []string
 	SrcAddressGroups        []string
-	SrcSecureTags           []string
+	SrcSecureTags           []pulumi.StringInput
 	SrcNetworks             []string
 	SrcNetworkScope         string
 	DestIpRanges            []string
@@ -67,7 +67,7 @@ type FirewallRule struct {
 	EnableLogging         bool
 	Disabled              bool
 	TargetServiceAccounts []string
-	TargetSecureTags      []string
+	TargetSecureTags      []pulumi.StringInput
 	Match                 FirewallRuleMatch
 }
 
@@ -229,7 +229,7 @@ func buildGlobalRuleArgs(projectID pulumi.StringInput, policyName pulumi.StringO
 		var tags compute.NetworkFirewallPolicyRuleTargetSecureTagArray
 		for _, t := range rule.TargetSecureTags {
 			tags = append(tags, &compute.NetworkFirewallPolicyRuleTargetSecureTagArgs{
-				Name: pulumi.String(t),
+				Name: t,
 			})
 		}
 		ruleArgs.TargetSecureTags = tags
@@ -267,7 +267,7 @@ func buildGlobalMatchArgs(rule FirewallRule) *compute.NetworkFirewallPolicyRuleM
 			var tags compute.NetworkFirewallPolicyRuleMatchSrcSecureTagArray
 			for _, t := range m.SrcSecureTags {
 				tags = append(tags, &compute.NetworkFirewallPolicyRuleMatchSrcSecureTagArgs{
-					Name: pulumi.String(t),
+					Name: t,
 				})
 			}
 			matchArgs.SrcSecureTags = tags
@@ -385,7 +385,7 @@ func buildRegionalRuleArgs(projectID pulumi.StringInput, policyName pulumi.Strin
 		var tags compute.RegionNetworkFirewallPolicyRuleTargetSecureTagArray
 		for _, t := range rule.TargetSecureTags {
 			tags = append(tags, &compute.RegionNetworkFirewallPolicyRuleTargetSecureTagArgs{
-				Name: pulumi.String(t),
+				Name: t,
 			})
 		}
 		ruleArgs.TargetSecureTags = tags

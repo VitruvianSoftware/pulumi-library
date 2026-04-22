@@ -48,9 +48,9 @@ func TestNewFirewall(t *testing.T) {
 						Layer4Configs: []FirewallLayer4Config{
 							{IpProtocol: "tcp", Ports: []string{"80", "443"}},
 						},
-						SrcSecureTags: []string{"tag-1"},
+						SrcSecureTags: []pulumi.StringInput{pulumi.String("tag-1")},
 					},
-					TargetSecureTags: []string{"tag-1"},
+					TargetSecureTags: []pulumi.StringInput{pulumi.String("tag-1")},
 				},
 				{
 					Priority:    1001,
