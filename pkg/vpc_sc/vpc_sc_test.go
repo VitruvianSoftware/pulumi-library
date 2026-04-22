@@ -69,3 +69,9 @@ func TestNewVpcServiceControls(t *testing.T) {
 	tracker.RequireType(t, "gcp:accesscontextmanager/accessLevel:AccessLevel", 6)
 	tracker.RequireType(t, "gcp:accesscontextmanager/servicePerimeter:ServicePerimeter", 3)
 }
+
+func TestGetDefaultRestrictedServices(t *testing.T) {
+	services := GetDefaultRestrictedServices()
+	require.NotEmpty(t, services)
+	require.Contains(t, services, "compute.googleapis.com")
+}
