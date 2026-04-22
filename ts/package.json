@@ -1,13 +1,21 @@
 {
-  "name": "@vitruvian/pulumi-library",
-  "version": "0.1.0",
+  "name": "@vitruviansoftware/pulumi-library",
+  "version": "0.1.1",
   "description": "Reusable Pulumi TypeScript components for Google Cloud Platform infrastructure",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.js.map"
+  ],
   "scripts": {
     "build": "tsc",
     "lint": "tsc --noEmit",
-    "test": "echo 'No tests yet'"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "pulumi",
@@ -30,7 +38,10 @@
     "@pulumi/random": "^4.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "@types/node": "^22",
+    "@vitest/coverage-v8": "^4.1.5",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.5"
   },
   "peerDependencies": {
     "@pulumi/gcp": ">=7.0.0",

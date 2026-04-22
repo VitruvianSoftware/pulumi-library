@@ -16,7 +16,6 @@ vendor/
 # TypeScript
 ts/node_modules/
 ts/dist/
-ts/package-lock.json
 ts/*.js
 ts/*.js.map
 ts/*.d.ts

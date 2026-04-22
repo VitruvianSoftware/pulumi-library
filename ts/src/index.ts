@@ -7,7 +7,7 @@ export { ProjectFactory } from "./project-factory";
 export { ParentIamMember, ParentIamRemoveRole } from "./parent-iam";
 export { OrgPolicyBoolean, OrgPolicyList, DomainRestrictedSharing } from "./org-policy";
 export { Budget } from "./budget";
-export { Network, FirewallRules } from "./network";
+export { Network, FirewallRules, SubnetConfig } from "./network";
 export { DnsHub } from "./dns-hub";
 export { GoogleGroup } from "./google-group";
 export { CbPrivatePool } from "./cb-private-pool";
