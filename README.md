@@ -1,10 +1,12 @@
 # Vitruvian Software Pulumi Library
 
-Reusable [ComponentResource](https://www.pulumi.com/docs/concepts/resources/components/) building blocks for Google Cloud Platform infrastructure, written in Go.
+Reusable [ComponentResource](https://www.pulumi.com/docs/concepts/resources/components/) building blocks for Google Cloud Platform infrastructure, available in **Go** and **TypeScript**.
 
 This library provides enterprise-grade, opinionated components that enforce Google Cloud security best practices. Each component wraps one or more GCP resources into a single, well-tested abstraction with sensible defaults.
 
 ## Quick Start
+
+### Go
 
 Add to your Go module:
 
@@ -16,6 +18,20 @@ Then import the package you need:
 
 ```go
 import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
+```
+
+### TypeScript
+
+Install from the `ts/` directory (or via npm link):
+
+```bash
+npm install @vitruvian/pulumi-library
+```
+
+Then import the module you need:
+
+```typescript
+import { ProjectFactory } from "@vitruvian/pulumi-library/project-factory";
 ```
 
 ## Packages
@@ -384,7 +400,8 @@ make tidy
 
 ## Related
 
-- [Pulumi Example Foundation](https://github.com/VitruvianSoftware/pulumi-example-foundation) — Enterprise GCP foundation that consumes this library
+- [Pulumi Example Foundation (Go)](https://github.com/VitruvianSoftware/pulumi_go-example-foundation) — Enterprise GCP foundation in Go that consumes this library
+- [Pulumi Example Foundation (TypeScript)](https://github.com/VitruvianSoftware/pulumi_ts-example-foundation) — Enterprise GCP foundation in TypeScript that consumes this library
 - [Google Terraform Example Foundation](https://github.com/terraform-google-modules/terraform-example-foundation) — The upstream reference architecture
 - [Pulumi ComponentResources](https://www.pulumi.com/docs/concepts/resources/components/) — Pulumi's documentation on component resources
 
