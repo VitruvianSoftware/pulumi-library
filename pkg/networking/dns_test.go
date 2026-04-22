@@ -56,21 +56,21 @@ func TestNewDnsZone(t *testing.T) {
 
 		// Test peering zone
 		_, err = NewDnsZone(ctx, "test-peer-zone", &DnsZoneArgs{
-			ProjectID:           pulumi.String("test-proj"),
-			Name:                "test-peer",
-			Domain:              "peer.example.com.",
-			Type:                "peering",
-			NetworkSelfLink:     pulumi.String("vpc-link"),
-			TargetNetworkSelfLink:     pulumi.String("peer-vpc-link"),
+			ProjectID:             pulumi.String("test-proj"),
+			Name:                  "test-peer",
+			Domain:                "peer.example.com.",
+			Type:                  "peering",
+			NetworkSelfLink:       pulumi.String("vpc-link"),
+			TargetNetworkSelfLink: pulumi.String("peer-vpc-link"),
 		})
 		require.NoError(t, err)
-		
+
 		// Test public zone
 		_, err = NewDnsZone(ctx, "test-pub-zone", &DnsZoneArgs{
-			ProjectID: pulumi.String("test-proj"),
-			Name:      "test-pub",
-			Domain:    "example.com.",
-			Type:      "public",
+			ProjectID:    pulumi.String("test-proj"),
+			Name:         "test-pub",
+			Domain:       "example.com.",
+			Type:         "public",
 			EnableDnssec: true,
 			DnssecState:  "on",
 		})
@@ -83,4 +83,3 @@ func TestNewDnsZone(t *testing.T) {
 	tracker.RequireType(t, "gcp:dns/managedZone:ManagedZone", 4)
 	tracker.RequireType(t, "gcp:dns/recordSet:RecordSet", 1)
 }
-

@@ -32,11 +32,11 @@ type TransitivityApplianceArgs struct {
 	ProjectID          pulumi.StringInput
 	Regions            []string
 	Network            pulumi.StringInput
-	NetworkName        string                              // short VPC name for naming
-	Subnetworks        map[string]pulumi.StringInput        // region -> subnetwork self_link
-	RegionalAggregates map[string][]string                  // region -> []CIDR
-	FirewallPolicy     pulumi.StringInput                   // firewall policy name for targeted rules
-	TargetSize         int                                  // instances per MIG (default 3)
+	NetworkName        string                        // short VPC name for naming
+	Subnetworks        map[string]pulumi.StringInput // region -> subnetwork self_link
+	RegionalAggregates map[string][]string           // region -> []CIDR
+	FirewallPolicy     pulumi.StringInput            // firewall policy name for targeted rules
+	TargetSize         int                           // instances per MIG (default 3)
 }
 
 type TransitivityAppliance struct {
@@ -117,7 +117,7 @@ sudo iptables -t nat -A POSTROUTING -j MASQUERADE
 		TcpHealthCheck: &compute.HealthCheckTcpHealthCheckArgs{
 			Port: pulumi.Int(22),
 		},
-		CheckIntervalSec:  pulumi.Int(5),
+		CheckIntervalSec:   pulumi.Int(5),
 		HealthyThreshold:   pulumi.Int(4),
 		TimeoutSec:         pulumi.Int(1),
 		UnhealthyThreshold: pulumi.Int(5),
@@ -249,14 +249,14 @@ sudo iptables -t nat -A POSTROUTING -j MASQUERADE
 		flatAggregates := pulumi.ToStringArray(allAggregates)
 
 		_, err = compute.NewNetworkFirewallPolicyRule(ctx, name+"-fw-ingress", &compute.NetworkFirewallPolicyRuleArgs{
-			Project:                args.ProjectID,
-			FirewallPolicy:         args.FirewallPolicy,
-			Priority:               pulumi.Int(20000),
-			Direction:              pulumi.String("INGRESS"),
-			Action:                 pulumi.String("allow"),
-			RuleName:               pulumi.String(fmt.Sprintf("fw-%s-20000-i-a-all-all-all-transitivity", strippedVpc)),
+			Project:               args.ProjectID,
+			FirewallPolicy:        args.FirewallPolicy,
+			Priority:              pulumi.Int(20000),
+			Direction:             pulumi.String("INGRESS"),
+			Action:                pulumi.String("allow"),
+			RuleName:              pulumi.String(fmt.Sprintf("fw-%s-20000-i-a-all-all-all-transitivity", strippedVpc)),
 			TargetServiceAccounts: pulumi.StringArray{sa.Email},
-			Description:            pulumi.String("Allow ingress from regional IP ranges."),
+			Description:           pulumi.String("Allow ingress from regional IP ranges."),
 			Match: &compute.NetworkFirewallPolicyRuleMatchArgs{
 				SrcIpRanges: flatAggregates,
 				Layer4Configs: compute.NetworkFirewallPolicyRuleMatchLayer4ConfigArray{
@@ -271,14 +271,14 @@ sudo iptables -t nat -A POSTROUTING -j MASQUERADE
 		}
 
 		_, err = compute.NewNetworkFirewallPolicyRule(ctx, name+"-fw-egress", &compute.NetworkFirewallPolicyRuleArgs{
-			Project:                args.ProjectID,
-			FirewallPolicy:         args.FirewallPolicy,
-			Priority:               pulumi.Int(20001),
-			Direction:              pulumi.String("EGRESS"),
-			Action:                 pulumi.String("allow"),
-			RuleName:               pulumi.String(fmt.Sprintf("fw-%s-20001-e-a-all-all-all-transitivity", strippedVpc)),
+			Project:               args.ProjectID,
+			FirewallPolicy:        args.FirewallPolicy,
+			Priority:              pulumi.Int(20001),
+			Direction:             pulumi.String("EGRESS"),
+			Action:                pulumi.String("allow"),
+			RuleName:              pulumi.String(fmt.Sprintf("fw-%s-20001-e-a-all-all-all-transitivity", strippedVpc)),
 			TargetServiceAccounts: pulumi.StringArray{sa.Email},
-			Description:            pulumi.String("Allow egress from regional IP ranges."),
+			Description:           pulumi.String("Allow egress from regional IP ranges."),
 			Match: &compute.NetworkFirewallPolicyRuleMatchArgs{
 				DestIpRanges: flatAggregates,
 				Layer4Configs: compute.NetworkFirewallPolicyRuleMatchLayer4ConfigArray{

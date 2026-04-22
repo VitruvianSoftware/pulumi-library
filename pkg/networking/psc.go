@@ -26,14 +26,14 @@ import (
 )
 
 type PrivateServiceConnectArgs struct {
-	ProjectID                  pulumi.StringInput
-	NetworkSelfLink            pulumi.StringInput
-	DnsCode                    string
-	IPAddress                  string
-	ForwardingRuleTarget       string // "vpc-sc" or "all-apis"
-	ServiceDirectoryNamespace  string // Optional: SD namespace to register under
-	ServiceDirectoryRegion     string // Optional: SD region (e.g. "us-central1")
-	PscGlobalAccess            bool   // If true, PSC endpoint accessible from other regions
+	ProjectID                 pulumi.StringInput
+	NetworkSelfLink           pulumi.StringInput
+	DnsCode                   string
+	IPAddress                 string
+	ForwardingRuleTarget      string // "vpc-sc" or "all-apis"
+	ServiceDirectoryNamespace string // Optional: SD namespace to register under
+	ServiceDirectoryRegion    string // Optional: SD region (e.g. "us-central1")
+	PscGlobalAccess           bool   // If true, PSC endpoint accessible from other regions
 }
 
 type PrivateServiceConnect struct {
@@ -81,13 +81,13 @@ func NewPrivateServiceConnect(ctx *pulumi.Context, name string, args *PrivateSer
 
 	// 2. PSC Forwarding Rule
 	fwdArgs := &compute.GlobalForwardingRuleArgs{
-		Project:             args.ProjectID,
-		Name:                pulumi.String(fmt.Sprintf("%s-%s", name, args.ForwardingRuleTarget)),
-		Target:              pulumi.String(args.ForwardingRuleTarget),
-		Network:             args.NetworkSelfLink,
-		IpAddress:           address.Address,
-		LoadBalancingScheme: pulumi.String(""),
-		NoAutomateDnsZone:   pulumi.Bool(true),
+		Project:              args.ProjectID,
+		Name:                 pulumi.String(fmt.Sprintf("%s-%s", name, args.ForwardingRuleTarget)),
+		Target:               pulumi.String(args.ForwardingRuleTarget),
+		Network:              args.NetworkSelfLink,
+		IpAddress:            address.Address,
+		LoadBalancingScheme:  pulumi.String(""),
+		NoAutomateDnsZone:    pulumi.Bool(true),
 		AllowPscGlobalAccess: pulumi.Bool(args.PscGlobalAccess),
 	}
 

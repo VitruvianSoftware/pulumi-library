@@ -109,8 +109,6 @@ func TestNewProject_AutoCreateNetworkExplicitTrue(t *testing.T) {
 	assert.True(t, projects[0].Inputs["autoCreateNetwork"].BoolValue())
 }
 
-
-
 // ---------- Full Budget ----------
 
 func TestNewProject_FullBudget(t *testing.T) {

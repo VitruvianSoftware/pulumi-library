@@ -40,25 +40,25 @@ type RecordSet struct {
 // DnsZoneArgs is the input for the DNS zone component.
 // Supports: "private", "peering", "forwarding", "public", "reverse_lookup", "service_directory".
 type DnsZoneArgs struct {
-	ProjectID                 pulumi.StringInput
-	Name                      string
-	Domain                    string
-	Description               string
+	ProjectID   pulumi.StringInput
+	Name        string
+	Domain      string
+	Description string
 	// Type: "private", "peering", "forwarding", "public", "reverse_lookup", "service_directory"
-	Type                      string
-	NetworkSelfLink           pulumi.StringInput
+	Type            string
+	NetworkSelfLink pulumi.StringInput
 	// For peering zones
-	TargetNetworkSelfLink     pulumi.StringInput
+	TargetNetworkSelfLink pulumi.StringInput
 	// For forwarding zones
 	TargetNameServerAddresses []string
 	ForwardingPath            string // "default" or "private" — upstream supports this
 	// For private zones with records
-	Recordsets                []RecordSet
+	Recordsets []RecordSet
 	// DNSSEC config (for public zones)
-	EnableDnssec              bool
-	DnssecState               string // "on", "off", "transfer"
+	EnableDnssec bool
+	DnssecState  string // "on", "off", "transfer"
 	// Labels
-	Labels                    map[string]string
+	Labels map[string]string
 }
 
 type DnsZone struct {

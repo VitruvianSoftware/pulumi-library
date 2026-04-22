@@ -87,13 +87,13 @@ func NewCloudRouter(ctx *pulumi.Context, name string, args *RouterArgs, opts ...
 	}
 
 	router, err := compute.NewRouter(ctx, name, &compute.RouterArgs{
-		Project:                       args.ProjectID,
-		Name:                          pulumi.String(name),
-		Region:                        pulumi.String(args.Region),
-		Network:                       args.Network,
-		Description:                   pulumi.String(args.Description),
-		Bgp:                           bgpArgs,
-		EncryptedInterconnectRouter:   pulumi.Bool(args.EncryptedInterconnectRouter),
+		Project:                     args.ProjectID,
+		Name:                        pulumi.String(name),
+		Region:                      pulumi.String(args.Region),
+		Network:                     args.Network,
+		Description:                 pulumi.String(args.Description),
+		Bgp:                         bgpArgs,
+		EncryptedInterconnectRouter: pulumi.Bool(args.EncryptedInterconnectRouter),
 	}, pulumi.Parent(component))
 	if err != nil {
 		return nil, err
@@ -121,13 +121,13 @@ func NewCloudRouter(ctx *pulumi.Context, name string, args *RouterArgs, opts ...
 		}
 
 		nat, err := compute.NewRouterNat(ctx, fmt.Sprintf("%s-nat", name), &compute.RouterNatArgs{
-			Project:                            args.ProjectID,
-			Router:                             router.Name,
-			Region:                             pulumi.String(args.Region),
-			Name:                               pulumi.String(fmt.Sprintf("%s-egress", name)),
-			NatIpAllocateOption:                pulumi.String(natAllocOption),
-			NatIps:                             natIPs,
-			SourceSubnetworkIpRangesToNat:      pulumi.String("ALL_SUBNETWORKS_ALL_IP_RANGES"),
+			Project:                       args.ProjectID,
+			Router:                        router.Name,
+			Region:                        pulumi.String(args.Region),
+			Name:                          pulumi.String(fmt.Sprintf("%s-egress", name)),
+			NatIpAllocateOption:           pulumi.String(natAllocOption),
+			NatIps:                        natIPs,
+			SourceSubnetworkIpRangesToNat: pulumi.String("ALL_SUBNETWORKS_ALL_IP_RANGES"),
 			LogConfig: &compute.RouterNatLogConfigArgs{
 				Enable: pulumi.Bool(true),
 				Filter: pulumi.String("TRANSLATIONS_ONLY"),

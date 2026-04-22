@@ -27,15 +27,15 @@ import (
 )
 
 const (
-	storageBucketType    = "gcp:storage/bucket:Bucket"
-	bucketIAMType        = "gcp:storage/bucketIAMMember:BucketIAMMember"
-	pubsubTopicType      = "gcp:pubsub/topic:Topic"
-	pubsubSubType        = "gcp:pubsub/subscription:Subscription"
-	topicIAMType         = "gcp:pubsub/topicIAMMember:TopicIAMMember"
-	projectIAMType       = "gcp:projects/iAMMember:IAMMember"
-	logBucketConfigType  = "gcp:logging/projectBucketConfig:ProjectBucketConfig"
-	linkedDatasetType    = "gcp:logging/linkedDataset:LinkedDataset"
-	randomStringType     = "random:index/randomString:RandomString"
+	storageBucketType   = "gcp:storage/bucket:Bucket"
+	bucketIAMType       = "gcp:storage/bucketIAMMember:BucketIAMMember"
+	pubsubTopicType     = "gcp:pubsub/topic:Topic"
+	pubsubSubType       = "gcp:pubsub/subscription:Subscription"
+	topicIAMType        = "gcp:pubsub/topicIAMMember:TopicIAMMember"
+	projectIAMType      = "gcp:projects/iAMMember:IAMMember"
+	logBucketConfigType = "gcp:logging/projectBucketConfig:ProjectBucketConfig"
+	linkedDatasetType   = "gcp:logging/linkedDataset:LinkedDataset"
+	randomStringType    = "random:index/randomString:RandomString"
 )
 
 func sinkOverrides() map[string]resource.PropertyMap {
@@ -356,11 +356,11 @@ func TestCentralizedLogging_InternalProjectSink(t *testing.T) {
 			ResourceType:                "organization",
 			LoggingDestinationProjectID: pulumi.String("audit"),
 			ProjectOptions: &ProjectOptions{
-				LoggingSinkFilter:    "",
-				LogBucketID:          "AggregatedLogs",
-				Location:             "us-central1",
-				EnableAnalytics:      true,
-				LinkedDatasetID:      "ds_test",
+				LoggingSinkFilter: "",
+				LogBucketID:       "AggregatedLogs",
+				Location:          "us-central1",
+				EnableAnalytics:   true,
+				LinkedDatasetID:   "ds_test",
 			},
 		})
 		return err

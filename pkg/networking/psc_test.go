@@ -41,12 +41,12 @@ func TestNewPrivateServiceConnect(t *testing.T) {
 
 		// Test all-apis and no service directory
 		_, err = NewPrivateServiceConnect(ctx, "test-psc-all", &PrivateServiceConnectArgs{
-			ProjectID:                 pulumi.String("test-proj"),
-			NetworkSelfLink:           pulumi.String("vpc-link"),
-			ForwardingRuleTarget:      "all-apis",
-			IPAddress:                 "10.0.0.6",
-			PscGlobalAccess:           false,
-			DnsCode:                   "d",
+			ProjectID:            pulumi.String("test-proj"),
+			NetworkSelfLink:      pulumi.String("vpc-link"),
+			ForwardingRuleTarget: "all-apis",
+			IPAddress:            "10.0.0.6",
+			PscGlobalAccess:      false,
+			DnsCode:              "d",
 		})
 		require.NoError(t, err)
 

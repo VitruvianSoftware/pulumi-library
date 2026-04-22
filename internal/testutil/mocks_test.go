@@ -123,11 +123,11 @@ func TestResourceTracker_Assertions(t *testing.T) {
 	tracker.RequireType(t, "type-a", 1)
 	tracker.AssertInputEquals(t, "a1", "foo", "bar")
 	tracker.AssertInputBool(t, "a1", "baz", true)
-	
+
 	// Test nonexistent branches with dummy T
 	dummyT := new(testing.T)
 	tracker.AssertInputEquals(dummyT, "nonexistent", "foo", "bar")
 	tracker.AssertInputBool(dummyT, "nonexistent", "baz", true)
-	
+
 	tracker.Dump(t)
 }

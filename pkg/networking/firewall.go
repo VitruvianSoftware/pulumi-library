@@ -193,7 +193,6 @@ func NewNetworkFirewallPolicy(ctx *pulumi.Context, name string, args *NetworkFir
 		}
 	}
 
-
 	ctx.RegisterResourceOutputs(component, pulumi.Map{
 		"policyName": pulumi.String(args.PolicyName),
 	})
