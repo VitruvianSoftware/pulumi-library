@@ -33,6 +33,7 @@ import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
 | **Data** | `pkg/data` | BigQuery data platform with raw + curated datasets | [README](./pkg/data/README.md) |
 | **CI/CD** | `pkg/cicd` | Workload Identity Federation (WIF) integrations for external pipelines (GitHub Actions, GitLab CI) and Cloud Build infrastructure (Source Repos, Artifact Registry, Triggers) | [README](./pkg/cicd/README.md) |
 | **Storage** | `pkg/storage` | Hardened Google Cloud Storage buckets with enforced public access prevention and optional KMS | [README](./pkg/storage/README.md) |
+| **Security** | `pkg/security` | Security monitoring components including Cloud Asset Inventory (CAI) monitoring with SCC integration | [README](./pkg/security/README.md) |
 
 ## Architecture
 
