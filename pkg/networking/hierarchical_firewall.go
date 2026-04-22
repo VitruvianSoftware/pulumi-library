@@ -44,7 +44,7 @@ func NewHierarchicalFirewallPolicy(ctx *pulumi.Context, name string, args *Hiera
 	}
 
 	component := &HierarchicalFirewallPolicy{}
-	err := ctx.RegisterComponentResource("pkg:networking:HierarchicalFirewallPolicy", name, component, opts...)
+	err := ctx.RegisterComponentResource("pkg:index:HierarchicalFirewallPolicy", name, component, opts...)
 	if err != nil {
 		return nil, err
 	}
