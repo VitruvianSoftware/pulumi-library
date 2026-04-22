@@ -7,13 +7,15 @@ This directory contains the TypeScript implementation of the Vitruvian Software 
 Install from the `ts/` directory (or via npm link/registry):
 
 ```bash
-npm install @vitruvian/pulumi-library
+npm install @vitruviansoftware/pulumi-library
 ```
 
-Then import the components you need from the barrel export:
+Then import the components you need from their respective submodules:
 
 ```typescript
-import { ProjectFactory, Network, SimpleBucket } from "@vitruvian/pulumi-library";
+import { ProjectFactory } from "@vitruviansoftware/pulumi-library/project-factory";
+import { Network } from "@vitruviansoftware/pulumi-library/network";
+import { SimpleBucket } from "@vitruviansoftware/pulumi-library/simple-bucket";
 ```
 
 ## Components
@@ -57,15 +59,15 @@ foundation:modules:ProjectFactory ("seed-project")
 
 ## Design Principles
 
-### 1. Unified Barrel Exports
-All Pulumi component resources are accessible from the top-level import. You do not need to require deep internal paths. 
+### 1. Submodule Exports
+To reduce the blast radius and avoid unnecessary dependency loading, components should be imported directly from their respective submodules rather than the top-level barrel export.
 
 ```typescript
-// ✅ Correct
-import { ParentIamMember } from "@vitruvian/pulumi-library";
+// ✅ Correct: Import from the specific submodule
+import { ParentIamMember } from "@vitruviansoftware/pulumi-library/parent-iam";
 
-// ❌ Avoid
-import { ParentIamMember } from "@vitruvian/pulumi-library/parent-iam";
+// ❌ Avoid: Importing from the barrel export
+import { ParentIamMember } from "@vitruviansoftware/pulumi-library";
 ```
 
 ### 2. Polymorphic Abstractions (Where Applicable)
@@ -79,7 +81,7 @@ Fields that map directly to GCP resource arguments are typed as `pulumi.Input<T>
 ### Create a Project with APIs and Budgets
 
 ```typescript
-import { ProjectFactory } from "@vitruvian/pulumi-library";
+import { ProjectFactory } from "@vitruviansoftware/pulumi-library/project-factory";
 
 const project = new ProjectFactory("my-project", {
     name: "my-app-project",
@@ -102,7 +104,7 @@ export const projectId = project.projectId;
 ### Bind IAM Roles
 
 ```typescript
-import { ParentIamMember } from "@vitruvian/pulumi-library";
+import { ParentIamMember } from "@vitruviansoftware/pulumi-library/parent-iam";
 
 // Organization-level
 new ParentIamMember("org-admin", {
@@ -124,7 +126,7 @@ new ParentIamMember("project-viewer", {
 ### Enforce Organization Policies
 
 ```typescript
-import { OrgPolicyBoolean, OrgPolicyList } from "@vitruvian/pulumi-library";
+import { OrgPolicyBoolean, OrgPolicyList } from "@vitruviansoftware/pulumi-library/org-policy";
 
 // Boolean constraint — enforce
 new OrgPolicyBoolean("no-serial-port", {
@@ -144,7 +146,7 @@ new OrgPolicyList("no-external-ip", {
 ### Create a VPC Network
 
 ```typescript
-import { Network } from "@vitruvian/pulumi-library";
+import { Network } from "@vitruviansoftware/pulumi-library/network";
 
 const vpc = new Network("shared-vpc", {
     projectId: project.projectId,
@@ -169,7 +171,7 @@ const vpc = new Network("shared-vpc", {
 ### Create a Secure Cloud Storage Bucket
 
 ```typescript
-import { SimpleBucket } from "@vitruvian/pulumi-library";
+import { SimpleBucket } from "@vitruviansoftware/pulumi-library/simple-bucket";
 
 const bucket = new SimpleBucket("app-data-bucket", {
     projectId: project.projectId,
@@ -183,7 +185,7 @@ const bucket = new SimpleBucket("app-data-bucket", {
 ### Export Centralized Logs
 
 ```typescript
-import { CentralizedLogging } from "@vitruvian/pulumi-library";
+import { CentralizedLogging } from "@vitruviansoftware/pulumi-library/centralized-logging";
 
 const logging = new CentralizedLogging("org-logs", {
     parentResourceType: "organization",
