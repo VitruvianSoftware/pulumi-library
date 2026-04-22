@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "ts": {
+      "release-type": "node"
+    },
+    "go": {
+      "release-type": "go"
+    }
+  }
+}
