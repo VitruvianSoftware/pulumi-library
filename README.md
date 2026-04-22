@@ -31,6 +31,8 @@ import "github.com/VitruvianSoftware/pulumi-library/pkg/project"
 | **Networking** | `pkg/networking` | VPC networks with subnets (secondary ranges, flow logs, Private Google Access), and optional Private Service Access | [README](./pkg/networking/README.md) |
 | **App** | `pkg/app` | Cloud Run v2 service deployment with environment variables, custom service accounts, and ingress control | [README](./pkg/app/README.md) |
 | **Data** | `pkg/data` | BigQuery data platform with raw + curated datasets | [README](./pkg/data/README.md) |
+| **CI/CD** | `pkg/cicd` | Workload Identity Federation (WIF) integrations for external pipelines (GitHub Actions, GitLab CI) and Cloud Build infrastructure (Source Repos, Artifact Registry, Triggers) | [README](./pkg/cicd/README.md) |
+| **Storage** | `pkg/storage` | Hardened Google Cloud Storage buckets with enforced public access prevention and optional KMS | [README](./pkg/storage/README.md) |
 
 ## Architecture
 
@@ -299,6 +301,60 @@ dp, err := data.NewDataPlatform(ctx, "analytics", &data.DataPlatformArgs{
 })
 // dp.RawDataset is the underlying *bigquery.Dataset
 // dp.CuratedDataset is the underlying *bigquery.Dataset
+```
+
+### Configure CI/CD Workload Identity (GitHub/GitLab)
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/cicd"
+
+// Configure GitHub Actions OIDC
+gh, err := cicd.NewGitHubOIDC(ctx, "gh-oidc", &cicd.GitHubOIDCArgs{
+    ProjectID:          pulumi.String("my-cicd-project"),
+    PoolID:             pulumi.String("foundation-pool"),
+    ProviderID:         pulumi.String("foundation-gh-provider"),
+    AttributeCondition: pulumi.String("assertion.repository_owner=='my-org'"),
+    SAMapping: map[string]cicd.SAMappingEntry{
+        "bootstrap": {
+            SAName:    pulumi.String("projects/my-cicd-project/serviceAccounts/bootstrap@..."),
+            Attribute: pulumi.String("attribute.repository/my-org/gcp-bootstrap"),
+        },
+    },
+})
+```
+
+### Create a Secure Cloud Storage Bucket
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/storage"
+
+enabled := true
+bucket, err := storage.NewSimpleBucket(ctx, "state-bucket", &storage.SimpleBucketArgs{
+    Name:         pulumi.String("my-encrypted-state-bucket"),
+    ProjectID:    pulumi.String("my-seed-project"),
+    Location:     pulumi.String("us-central1"),
+    ForceDestroy: pulumi.Bool(false),
+    Versioning:   &enabled,
+})
+```
+
+### Provision Cloud Build Infrastructure
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/pkg/cicd"
+
+cb, err := cicd.NewCloudBuild(ctx, "pipeline", &cicd.CloudBuildArgs{
+    ProjectID:  pulumi.String("my-cicd-project"),
+    Region:     pulumi.String("us-central1"),
+    SourceType: cicd.CloudBuildSourceGitHub, // Default; CSR is deprecated
+    Triggers: map[string]cicd.CloudBuildTriggerConfig{
+        "bootstrap": {
+            RepoName:       "gcp-bootstrap",
+            RepoOwner:      "my-org",
+            ServiceAccount: pulumi.String("projects/my-cicd-project/serviceAccounts/sa@..."),
+        },
+    },
+})
 ```
 
 ## Compatibility
