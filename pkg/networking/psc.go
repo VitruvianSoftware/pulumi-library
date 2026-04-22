@@ -47,6 +47,10 @@ type PrivateServiceConnect struct {
 }
 
 func NewPrivateServiceConnect(ctx *pulumi.Context, name string, args *PrivateServiceConnectArgs, opts ...pulumi.ResourceOption) (*PrivateServiceConnect, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &PrivateServiceConnect{}
 	err := ctx.RegisterComponentResource("pkg:index:PrivateServiceConnect", name, component, opts...)
 	if err != nil {

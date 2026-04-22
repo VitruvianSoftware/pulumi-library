@@ -66,6 +66,14 @@ func TestNewVpcServiceControls(t *testing.T) {
 	}, pulumi.WithMocks("test-project", "test-stack", tracker))
 	require.NoError(t, err)
 
+	err = pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewVpcServiceControls(ctx, "test-nil", nil)
+		require.Error(t, err)
+		require.Equal(t, "args is required", err.Error())
+		return nil
+	}, pulumi.WithMocks("test-project", "test-stack", testutil.NewTracker()))
+	require.NoError(t, err)
+
 	tracker.RequireType(t, "gcp:accesscontextmanager/accessLevel:AccessLevel", 6)
 	tracker.RequireType(t, "gcp:accesscontextmanager/servicePerimeter:ServicePerimeter", 3)
 }

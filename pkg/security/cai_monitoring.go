@@ -133,7 +133,7 @@ type CAIMonitoring struct {
 // See CAIMonitoringArgs and CAIMonitoring for full documentation.
 func NewCAIMonitoring(ctx *pulumi.Context, name string, args *CAIMonitoringArgs, opts ...pulumi.ResourceOption) (*CAIMonitoring, error) {
 	if args == nil {
-		return nil, fmt.Errorf("args cannot be nil")
+		return nil, fmt.Errorf("args is required")
 	}
 
 	comp := &CAIMonitoring{}

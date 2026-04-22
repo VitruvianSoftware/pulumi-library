@@ -112,3 +112,12 @@ func TestNewFirewall(t *testing.T) {
 	tracker.RequireType(t, "gcp:compute/regionNetworkFirewallPolicyAssociation:RegionNetworkFirewallPolicyAssociation", 1)
 	tracker.RequireType(t, "gcp:compute/regionNetworkFirewallPolicyRule:RegionNetworkFirewallPolicyRule", 5)
 }
+
+func TestNewNetworkFirewallPolicy_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewNetworkFirewallPolicy(ctx, "test", nil)
+		require.Error(t, err)
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}

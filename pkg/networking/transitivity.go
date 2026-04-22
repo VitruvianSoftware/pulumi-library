@@ -47,6 +47,10 @@ type TransitivityAppliance struct {
 }
 
 func NewTransitivityAppliance(ctx *pulumi.Context, name string, args *TransitivityApplianceArgs, opts ...pulumi.ResourceOption) (*TransitivityAppliance, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &TransitivityAppliance{
 		ILBs: make(map[string]*compute.ForwardingRule),
 	}

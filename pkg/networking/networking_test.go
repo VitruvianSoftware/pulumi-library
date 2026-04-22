@@ -269,3 +269,22 @@ func TestNewNetworking_FullStack(t *testing.T) {
 	tracker.RequireType(t, "gcp:compute/globalAddress:GlobalAddress", 1)
 	tracker.RequireType(t, "gcp:servicenetworking/connection:Connection", 1)
 }
+
+func TestNewNetworking_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewNetworking(ctx, "test", nil)
+		require.Error(t, err)
+		require.Equal(t, "args is required", err.Error())
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}
+
+func TestNewTransitivityAppliance_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewTransitivityAppliance(ctx, "test", nil)
+		require.Error(t, err)
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}

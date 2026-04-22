@@ -95,6 +95,10 @@ type NetworkFirewallPolicy struct {
 }
 
 func NewNetworkFirewallPolicy(ctx *pulumi.Context, name string, args *NetworkFirewallPolicyArgs, opts ...pulumi.ResourceOption) (*NetworkFirewallPolicy, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &NetworkFirewallPolicy{}
 	err := ctx.RegisterComponentResource("pkg:index:NetworkFirewallPolicy", name, component, opts...)
 	if err != nil {

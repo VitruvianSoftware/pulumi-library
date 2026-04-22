@@ -68,6 +68,10 @@ type DnsZone struct {
 }
 
 func NewDnsZone(ctx *pulumi.Context, name string, args *DnsZoneArgs, opts ...pulumi.ResourceOption) (*DnsZone, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &DnsZone{}
 	err := ctx.RegisterComponentResource("pkg:index:DnsZone", name, component, opts...)
 	if err != nil {

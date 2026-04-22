@@ -174,6 +174,10 @@ type VpcServiceControls struct {
 }
 
 func NewVpcServiceControls(ctx *pulumi.Context, name string, args *VpcServiceControlsArgs, opts ...pulumi.ResourceOption) (*VpcServiceControls, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &VpcServiceControls{}
 	err := ctx.RegisterComponentResource("pkg:index:VpcServiceControls", name, component, opts...)
 	if err != nil {

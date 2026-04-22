@@ -83,3 +83,12 @@ func TestNewDnsZone(t *testing.T) {
 	tracker.RequireType(t, "gcp:dns/managedZone:ManagedZone", 4)
 	tracker.RequireType(t, "gcp:dns/recordSet:RecordSet", 1)
 }
+
+func TestNewDnsZone_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewDnsZone(ctx, "test", nil)
+		require.Error(t, err)
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}

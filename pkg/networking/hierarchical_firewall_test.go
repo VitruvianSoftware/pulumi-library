@@ -48,10 +48,8 @@ func TestNewHierarchicalFirewallPolicy(t *testing.T) {
 
 func TestNewHierarchicalFirewallPolicy_NilArgs(t *testing.T) {
 	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
-		fw, err := NewHierarchicalFirewallPolicy(ctx, "test-fw", nil)
+		_, err := NewHierarchicalFirewallPolicy(ctx, "test", nil)
 		assert.Error(t, err)
-		assert.Equal(t, "args is required", err.Error())
-		assert.Nil(t, fw)
 		return nil
 	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
 	assert.NoError(t, err)

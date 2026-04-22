@@ -49,6 +49,10 @@ type CloudRouter struct {
 }
 
 func NewCloudRouter(ctx *pulumi.Context, name string, args *RouterArgs, opts ...pulumi.ResourceOption) (*CloudRouter, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &CloudRouter{}
 	err := ctx.RegisterComponentResource("pkg:index:CloudRouter", name, component, opts...)
 	if err != nil {

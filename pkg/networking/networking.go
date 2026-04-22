@@ -55,6 +55,10 @@ type Networking struct {
 }
 
 func NewNetworking(ctx *pulumi.Context, name string, args *NetworkingArgs, opts ...pulumi.ResourceOption) (*Networking, error) {
+	if args == nil {
+		return nil, fmt.Errorf("args is required")
+	}
+
 	component := &Networking{
 		Subnets: make(map[string]*compute.Subnetwork),
 	}

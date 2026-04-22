@@ -89,3 +89,12 @@ func TestNewTransitivityAppliance(t *testing.T) {
 	tracker.RequireType(t, "gcp:compute/forwardingRule:ForwardingRule", 1)
 	tracker.RequireType(t, "gcp:compute/route:Route", 1)
 }
+
+func TestNewPrivateServiceConnect_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewPrivateServiceConnect(ctx, "test", nil)
+		require.Error(t, err)
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}

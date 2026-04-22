@@ -69,3 +69,12 @@ func TestNewCloudRouter_NoNat(t *testing.T) {
 
 	tracker.RequireType(t, "gcp:compute/router:Router", 1)
 }
+
+func TestNewCloudRouter_NilArgs(t *testing.T) {
+	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
+		_, err := NewCloudRouter(ctx, "test", nil)
+		require.Error(t, err)
+		return nil
+	}, pulumi.WithMocks("project", "stack", testutil.NewTracker()))
+	require.NoError(t, err)
+}
