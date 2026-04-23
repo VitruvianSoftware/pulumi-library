@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, beforeAll } from "vitest";
-import { setupPulumiMocks } from "../../test/mocks";
+import { setupPulumiMocks } from "../../../test/mocks";
 
 // Mocks must be set up before importing any Pulumi resources
 beforeAll(() => {

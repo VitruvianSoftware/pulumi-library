@@ -6,7 +6,7 @@
 
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
-import { Network, FirewallRules } from "../network";
+import { Network, FirewallRules } from "@vitruviansoftware/pulumi-network";
 
 export interface PrivateWorkerPoolConfig {
     region: string;
