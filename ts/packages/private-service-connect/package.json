@@ -14,5 +14,10 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitruvianSoftware/pulumi-library.git",
+    "directory": "ts/packages/private-service-connect"
   }
 }
