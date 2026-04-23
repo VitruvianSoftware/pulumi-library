@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-kms",
+  "name": "@vitruviansoftware/foundation-kms",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

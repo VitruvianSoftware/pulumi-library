@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-project-factory",
+  "name": "@vitruviansoftware/foundation-project-factory",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

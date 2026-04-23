@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-google-group",
+  "name": "@vitruviansoftware/foundation-google-group",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

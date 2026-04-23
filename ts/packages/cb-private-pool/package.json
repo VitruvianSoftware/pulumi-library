@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-cb-private-pool",
+  "name": "@vitruviansoftware/foundation-cb-private-pool",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "@pulumi/gcp": "^8.0.0",
     "@pulumi/pulumi": "^3.0.0",
     "@pulumi/random": "^4.0.0",
-    "@vitruviansoftware/pulumi-network": "*"
+    "@vitruviansoftware/foundation-network": "*"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

@@ -1,10 +1,10 @@
 {
-  "name": "@vitruviansoftware/pulumi-library",
+  "name": "@vitruviansoftware/foundation-library",
   "version": "0.3.2",
   "description": "Reusable Pulumi TypeScript components for Google Cloud Platform infrastructure",
   "private": true,
   "scripts": {
-    "build": "npm run build -w @vitruviansoftware/pulumi-network && npm run build --workspaces --if-present",
+    "build": "npm run build -w @vitruviansoftware/foundation-network && npm run build --workspaces --if-present",
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

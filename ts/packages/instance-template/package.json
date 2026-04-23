@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-instance-template",
+  "name": "@vitruviansoftware/foundation-instance-template",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

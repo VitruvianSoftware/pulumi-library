@@ -1,5 +1,5 @@
 {
-  "name": "@vitruviansoftware/pulumi-hierarchical-firewall-policy",
+  "name": "@vitruviansoftware/foundation-hierarchical-firewall-policy",
   "version": "0.2.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
