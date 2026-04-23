@@ -6,12 +6,11 @@
     "moduleResolution": "node",
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "src/**/*.test.ts", "test"]
+  "include": ["packages/**/*.ts"],
+  "exclude": ["node_modules", "dist", "packages/**/*.test.ts", "test"]
 }
