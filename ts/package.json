@@ -1,9 +1,79 @@
 {
   "name": "@vitruviansoftware/pulumi-library",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Reusable Pulumi TypeScript components for Google Cloud Platform infrastructure",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./budget": {
+      "types": "./dist/budget/index.d.ts",
+      "default": "./dist/budget/index.js"
+    },
+    "./cb-private-pool": {
+      "types": "./dist/cb-private-pool/index.d.ts",
+      "default": "./dist/cb-private-pool/index.js"
+    },
+    "./centralized-logging": {
+      "types": "./dist/centralized-logging/index.d.ts",
+      "default": "./dist/centralized-logging/index.js"
+    },
+    "./dns-hub": {
+      "types": "./dist/dns-hub/index.d.ts",
+      "default": "./dist/dns-hub/index.js"
+    },
+    "./google-group": {
+      "types": "./dist/google-group/index.d.ts",
+      "default": "./dist/google-group/index.js"
+    },
+    "./hierarchical-firewall-policy": {
+      "types": "./dist/hierarchical-firewall-policy/index.d.ts",
+      "default": "./dist/hierarchical-firewall-policy/index.js"
+    },
+    "./instance-template": {
+      "types": "./dist/instance-template/index.d.ts",
+      "default": "./dist/instance-template/index.js"
+    },
+    "./kms": {
+      "types": "./dist/kms/index.d.ts",
+      "default": "./dist/kms/index.js"
+    },
+    "./network": {
+      "types": "./dist/network/index.d.ts",
+      "default": "./dist/network/index.js"
+    },
+    "./network-peering": {
+      "types": "./dist/network-peering/index.d.ts",
+      "default": "./dist/network-peering/index.js"
+    },
+    "./org-policy": {
+      "types": "./dist/org-policy/index.d.ts",
+      "default": "./dist/org-policy/index.js"
+    },
+    "./parent-iam": {
+      "types": "./dist/parent-iam/index.d.ts",
+      "default": "./dist/parent-iam/index.js"
+    },
+    "./private-service-connect": {
+      "types": "./dist/private-service-connect/index.d.ts",
+      "default": "./dist/private-service-connect/index.js"
+    },
+    "./project-factory": {
+      "types": "./dist/project-factory/index.d.ts",
+      "default": "./dist/project-factory/index.js"
+    },
+    "./simple-bucket": {
+      "types": "./dist/simple-bucket/index.d.ts",
+      "default": "./dist/simple-bucket/index.js"
+    },
+    "./vpn-ha": {
+      "types": "./dist/vpn-ha/index.d.ts",
+      "default": "./dist/vpn-ha/index.js"
+    }
+  },
   "files": [
     "dist/**/*.js",
     "dist/**/*.d.ts",
