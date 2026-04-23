@@ -9,22 +9,10 @@
     "ts/packages/budget": {
       "release-type": "node"
     },
-    "ts/packages/cai-monitoring": {
-      "release-type": "node"
-    },
     "ts/packages/cb-private-pool": {
       "release-type": "node"
     },
     "ts/packages/centralized-logging": {
-      "release-type": "node"
-    },
-    "ts/packages/cloudbuild-source": {
-      "release-type": "node"
-    },
-    "ts/packages/cloudbuild-workspace": {
-      "release-type": "node"
-    },
-    "ts/packages/compute-instance": {
       "release-type": "node"
     },
     "ts/packages/dns-hub": {
@@ -43,9 +31,6 @@
       "release-type": "node"
     },
     "ts/packages/network": {
-      "release-type": "node"
-    },
-    "ts/packages/network-firewall-policy": {
       "release-type": "node"
     },
     "ts/packages/network-peering": {
