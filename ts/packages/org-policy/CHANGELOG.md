@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-org-policy-v0.2.1...pulumi-org-policy-v0.2.2) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ts:** add repository field to package.json ([4a21652](https://github.com/VitruvianSoftware/pulumi-library/commit/4a216520d0c7480834407db63574b39f339de4ca))
+
 ## [0.2.1](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-org-policy-v0.2.0...pulumi-org-policy-v0.2.1) (2026-04-23)
 
 
