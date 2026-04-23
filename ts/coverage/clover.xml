@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1776902704860" clover="3.2.0">
+  <project timestamp="1776902704860" name="All files">
+    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="16" files="16" classes="16"/>
+    <package name="budget.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/budget/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="cb-private-pool.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/cb-private-pool/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="centralized-logging.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/centralized-logging/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="dns-hub.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/dns-hub/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="google-group.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/google-group/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="hierarchical-firewall-policy.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/hierarchical-firewall-policy/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="instance-template.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/instance-template/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="kms.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/kms/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="network-peering.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/network-peering/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="network.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/network/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="org-policy.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/org-policy/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="parent-iam.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/parent-iam/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="private-service-connect.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/private-service-connect/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="project-factory.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/project-factory/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="simple-bucket.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/simple-bucket/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="vpn-ha.dist">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.d.ts" path="/Users/james/Workspace/gh/infrastructure/vitruvian/pulumi-library/ts/packages/vpn-ha/dist/index.d.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+  </project>
+</coverage>
