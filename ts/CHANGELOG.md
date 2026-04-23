@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-library-v0.3.0...pulumi-library-v0.3.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* **library:** remove committed coverage artifacts, clean stale exports, harden gitignore ([19f186d](https://github.com/VitruvianSoftware/pulumi-library/commit/19f186d91079ec2bc28a854e07d3970ae4eabd04))
+* **library:** remove committed coverage artifacts, clean stale exports, harden gitignore ([c1c2ace](https://github.com/VitruvianSoftware/pulumi-library/commit/c1c2ace44b2d65e301a73385133c50e7fd954111))
+
 ## [0.3.0](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-library-v0.2.0...pulumi-library-v0.3.0) (2026-04-23)
 
 
