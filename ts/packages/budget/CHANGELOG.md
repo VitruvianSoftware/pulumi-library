@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-budget-v0.2.3...pulumi-budget-v0.2.4) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ts:** trigger new release for public access ([1f2b112](https://github.com/VitruvianSoftware/pulumi-library/commit/1f2b1121a615fde7ead1ff569e93fa7d4f70fa86))
+* **ts:** trigger release ([1bcb6fa](https://github.com/VitruvianSoftware/pulumi-library/commit/1bcb6faa91d8c2bb7d6b80c6ec1e081bf8e136b6))
+
 ## [0.2.3](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-budget-v0.2.2...pulumi-budget-v0.2.3) (2026-04-23)
 
 
