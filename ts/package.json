@@ -80,7 +80,7 @@
     "dist/**/*.js.map"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build --workspaces --if-present",
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -116,5 +116,8 @@
   "peerDependencies": {
     "@pulumi/gcp": ">=7.0.0",
     "@pulumi/pulumi": ">=3.0.0"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
