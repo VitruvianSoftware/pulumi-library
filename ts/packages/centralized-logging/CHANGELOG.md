@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-centralized-logging-v0.2.2...pulumi-centralized-logging-v0.2.3) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ts:** make npm packages public ([1c47b53](https://github.com/VitruvianSoftware/pulumi-library/commit/1c47b530a70156a4a4f7d25211050f6991bd2ee1))
+
 ## [0.2.2](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-centralized-logging-v0.2.1...pulumi-centralized-logging-v0.2.2) (2026-04-23)
 
 
