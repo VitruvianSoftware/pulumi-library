@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-org-policy-v0.2.0...pulumi-org-policy-v0.2.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ci:** configure npm publishing to github packages ([#35](https://github.com/VitruvianSoftware/pulumi-library/issues/35)) ([3c847ac](https://github.com/VitruvianSoftware/pulumi-library/commit/3c847acd3c768edfefb9a0da2b5112109a2d5a1f))
+
 ## [0.2.0](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-org-policy-v0.1.0...pulumi-org-policy-v0.2.0) (2026-04-23)
 
 
