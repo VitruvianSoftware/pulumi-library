@@ -55,15 +55,14 @@ jobs:
           git diff --exit-code go.mod go.sum
 
       - name: Vet
-        run: go vet ./...
+        run: go vet $(go work edit -json | jq -r '.Use[].DiskPath | . + "/..."')
 
       - name: Build
-        run: go build ./...
+        run: go build $(go work edit -json | jq -r '.Use[].DiskPath | . + "/..."')
 
       - name: Test with coverage
         run: |
-          go test ./pkg/... -coverprofile=coverage.out -covermode=atomic -race -count=1
-          go test ./internal/... -race -count=1
+          go test $(go work edit -json | jq -r '.Use[].DiskPath | . + "/..."') -coverprofile=coverage.out -covermode=atomic -race -count=1
 
       - name: Coverage report
         run: go tool cover -func=coverage.out
