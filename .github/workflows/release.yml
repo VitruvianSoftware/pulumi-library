@@ -56,6 +56,6 @@ jobs:
             pkg_version=$(jq -r '.version' "$pkg_dir/package.json")
             echo "Publishing $pkg_name@$pkg_version..."
             cd "$pkg_dir"
-            npm publish --access restricted || echo "⚠️ $pkg_name may already be published at this version"
+            npm publish --access public || echo "⚠️ $pkg_name may already be published at this version"
             cd ../..
           done
