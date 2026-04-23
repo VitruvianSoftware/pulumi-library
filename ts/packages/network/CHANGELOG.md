@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-network-v0.2.3...pulumi-network-v0.2.4) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ts:** trigger release ([1bcb6fa](https://github.com/VitruvianSoftware/pulumi-library/commit/1bcb6faa91d8c2bb7d6b80c6ec1e081bf8e136b6))
+
 ## [0.2.3](https://github.com/VitruvianSoftware/pulumi-library/compare/pulumi-network-v0.2.2...pulumi-network-v0.2.3) (2026-04-23)
 
 
