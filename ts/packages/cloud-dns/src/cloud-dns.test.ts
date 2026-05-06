@@ -1,7 +1,7 @@
 /**
  * Copyright 2026 Vitruvian Software
  *
- * Unit tests for the DnsHub module.
+ * Unit tests for the CloudDns module.
  */
 
 import { describe, it, expect, beforeAll } from "vitest";
@@ -11,16 +11,19 @@ beforeAll(() => {
     setupPulumiMocks();
 });
 
-describe("DnsHub", () => {
-    it("should export the DnsHub class", async () => {
+describe("CloudDns", () => {
+    it("should export the CloudDns class", async () => {
         const mod = await import("./index");
-        expect(mod.DnsHub).toBeDefined();
+        expect(mod.CloudDns).toBeDefined();
     });
 
-    it("should instantiate DnsHub", async () => {
+    it("should instantiate CloudDns", async () => {
         const mod = await import("./index");
-        const dns = new mod.DnsHub("test-dns", {
+        const dns = new mod.CloudDns("test-dns", {
             projectId: "prj-dns-hub",
+            name: "test-zone",
+            domain: "example.com.",
+            type: "private",
             networkSelfLink: "projects/prj-dns-hub/global/networks/vpc-dns",
         });
         expect(dns).toBeDefined();
