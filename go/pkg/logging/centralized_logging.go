@@ -276,7 +276,7 @@ func NewCentralizedLogging(ctx *pulumi.Context, name string, args *CentralizedLo
 			// Grant writer identity logWriter on the destination project
 			iamMember, err := projects.NewIAMMember(ctx, fmt.Sprintf("%s-prj-iam-%s", name, resKey), &projects.IAMMemberArgs{
 				Project: args.LoggingDestinationProjectID,
-				Role:    pulumi.String("roles/logging.logWriter"),
+				Role:    pulumi.String("roles/logging.bucketWriter"),
 				Member:  sink.WriterIdentity,
 			}, childOpts...)
 			if err != nil {
@@ -534,7 +534,7 @@ func NewCentralizedLogging(ctx *pulumi.Context, name string, args *CentralizedLo
 		}
 		billingPrjIAM, err := projects.NewIAMMember(ctx, name+"-prj-iam-billing", &projects.IAMMemberArgs{
 			Project: args.LoggingDestinationProjectID,
-			Role:    pulumi.String("roles/logging.logWriter"),
+			Role:    pulumi.String("roles/logging.bucketWriter"),
 			Member:  billingSink.WriterIdentity,
 		}, childOpts...)
 		if err != nil {
