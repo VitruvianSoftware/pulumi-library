@@ -4,6 +4,8 @@ Provides foundational storage components, mirroring the functionality of the `te
 
 ## Installation
 
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cloud_storage/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_storage@vX.Y.Z`.
+
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_storage
 ```

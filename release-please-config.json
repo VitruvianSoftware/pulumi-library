@@ -154,7 +154,10 @@
     },
     "go/pkg/compute_instance": {
       "release-type": "go",
-      "component": "go-compute-instance"
+      "component": "go/pkg/compute_instance",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "0.2.3"
     },
     "go/pkg/gcloud": {
       "release-type": "go",
@@ -162,7 +165,10 @@
     },
     "go/pkg/instance_template": {
       "release-type": "go",
-      "component": "go-instance-template"
+      "component": "go/pkg/instance_template",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "0.2.4"
     },
     "go/pkg/kms": {
       "release-type": "go",
@@ -190,35 +196,59 @@
     },
     "go/pkg/project_factory": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/project_factory",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/network": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/network",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/vpc_service_controls": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/vpc_service_controls",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/centralized_logging": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/centralized_logging",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/cloud_storage": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/cloud_storage",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/org_policy": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/org_policy",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/cai_monitoring": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/cai_monitoring",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     },
     "go/pkg/google_group": {
       "release-type": "go",
-      "release-as": "1.0.1"
+      "component": "go/pkg/google_group",
+      "tag-separator": "/",
+      "include-component-in-tag": true,
+      "release-as": "1.0.2"
     }
   }
 }

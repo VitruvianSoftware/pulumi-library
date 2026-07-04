@@ -4,6 +4,8 @@ Reusable Pulumi components for GCP security infrastructure, mirroring local modu
 
 ## Installation
 
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cai_monitoring/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cai_monitoring@vX.Y.Z`.
+
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cai_monitoring
 ```

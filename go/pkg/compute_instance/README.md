@@ -4,6 +4,18 @@ A Pulumi component for creating GCP Compute Instances from an existing instance 
 
 **Upstream Reference:** [terraform-google-modules/vm/google//modules/compute_instance](https://registry.terraform.io/modules/terraform-google-modules/vm/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/compute_instance/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/compute_instance@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/compute_instance
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/compute_instance"
+```
+
 ## Overview
 
 Creates one or more compute instances from a template with:

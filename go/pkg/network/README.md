@@ -4,6 +4,8 @@ Creates VPC networks with subnets (including GKE secondary ranges, flow logs, an
 
 ## Installation
 
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/network/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network@vX.Y.Z`.
+
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network
 ```

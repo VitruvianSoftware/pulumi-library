@@ -4,6 +4,18 @@ A Pulumi component for creating GCP Compute Instance Templates with optional shi
 
 **Upstream Reference:** [terraform-google-modules/vm/google//modules/instance_template](https://registry.terraform.io/modules/terraform-google-modules/vm/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/instance_template/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/instance_template@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/instance_template
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/instance_template"
+```
+
 ## Overview
 
 Creates a compute instance template with:
