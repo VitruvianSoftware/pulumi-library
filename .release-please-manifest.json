@@ -30,7 +30,7 @@
   "ts/packages/network-firewall-policy": "0.2.0",
   "ts/packages/pubsub": "0.2.0",
   "go/pkg/app": "0.4.1",
-  "go/pkg/bootstrap": "1.0.0",
+  "go/pkg/bootstrap": "1.0.1",
   "go/pkg/cicd": "0.4.1",
   "go/pkg/data": "0.4.1",
   "go/pkg/iam": "0.4.1",
