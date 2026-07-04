@@ -4,6 +4,8 @@ Creates a Cloud Identity / Google Workspace group with configurable type labels 
 
 ## Installation
 
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/google_group/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/google_group@vX.Y.Z`.
+
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/google_group
 ```

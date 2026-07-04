@@ -4,6 +4,8 @@ Enforces [GCP organization policy constraints](https://cloud.google.com/resource
 
 ## Installation
 
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/org_policy/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/org_policy@vX.Y.Z`.
+
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/org_policy
 ```
