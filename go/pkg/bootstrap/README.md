@@ -2,6 +2,18 @@
 
 Creates the seed infrastructure required by a GCP foundation, mirroring the functionality of the `terraform-google-modules/terraform-google-bootstrap` module.
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/bootstrap/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/bootstrap@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/bootstrap
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/bootstrap"
+```
+
 ## Overview
 
 The `Bootstrap` component bundles the following resources to prepare a foundation environment:
