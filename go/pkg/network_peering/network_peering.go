@@ -26,13 +26,21 @@ import (
 )
 
 type NetworkPeeringArgs struct {
-	LocalNetwork                         pulumi.StringInput
-	PeerNetwork                          pulumi.StringInput
-	ExportCustomRoutes                   bool
-	ImportCustomRoutes                   bool
-	ExportSubnetRoutesWithPublicIp       bool
-	ImportSubnetRoutesWithPublicIp       bool
-	StackType                            string
+	LocalNetwork                   pulumi.StringInput
+	PeerNetwork                    pulumi.StringInput
+	ExportCustomRoutes             bool
+	ImportCustomRoutes             bool
+	ExportSubnetRoutesWithPublicIp bool
+	ImportSubnetRoutesWithPublicIp bool
+	StackType                      string
+
+	// LocalName and PeerName override the GCP resource name of each directional
+	// peering. When empty they default to "<name>-local" and "<name>-peer"
+	// respectively. Setting them explicitly lets callers reproduce a specific
+	// naming scheme (e.g. the upstream "np-<local>-<peer>" convention) without
+	// hand-rolling both reciprocal peering resources.
+	LocalName string
+	PeerName  string
 }
 
 type NetworkPeering struct {
@@ -57,15 +65,24 @@ func NewNetworkPeering(ctx *pulumi.Context, name string, args *NetworkPeeringArg
 		stackType = "IPV4_ONLY"
 	}
 
+	localName := args.LocalName
+	if localName == "" {
+		localName = fmt.Sprintf("%s-local", name)
+	}
+	peerName := args.PeerName
+	if peerName == "" {
+		peerName = fmt.Sprintf("%s-peer", name)
+	}
+
 	local, err := compute.NewNetworkPeering(ctx, name+"-local", &compute.NetworkPeeringArgs{
-		Name:                             pulumi.String(fmt.Sprintf("%s-local", name)),
-		Network:                          args.LocalNetwork,
-		PeerNetwork:                      args.PeerNetwork,
-		ExportCustomRoutes:               pulumi.Bool(args.ExportCustomRoutes),
-		ImportCustomRoutes:               pulumi.Bool(args.ImportCustomRoutes),
-		ExportSubnetRoutesWithPublicIp:   pulumi.Bool(args.ExportSubnetRoutesWithPublicIp),
-		ImportSubnetRoutesWithPublicIp:   pulumi.Bool(args.ImportSubnetRoutesWithPublicIp),
-		StackType:                        pulumi.String(stackType),
+		Name:                           pulumi.String(localName),
+		Network:                        args.LocalNetwork,
+		PeerNetwork:                    args.PeerNetwork,
+		ExportCustomRoutes:             pulumi.Bool(args.ExportCustomRoutes),
+		ImportCustomRoutes:             pulumi.Bool(args.ImportCustomRoutes),
+		ExportSubnetRoutesWithPublicIp: pulumi.Bool(args.ExportSubnetRoutesWithPublicIp),
+		ImportSubnetRoutesWithPublicIp: pulumi.Bool(args.ImportSubnetRoutesWithPublicIp),
+		StackType:                      pulumi.String(stackType),
 	}, pulumi.Parent(component))
 	if err != nil {
 		return nil, err
@@ -73,14 +90,14 @@ func NewNetworkPeering(ctx *pulumi.Context, name string, args *NetworkPeeringArg
 	component.LocalPeering = local
 
 	peer, err := compute.NewNetworkPeering(ctx, name+"-peer", &compute.NetworkPeeringArgs{
-		Name:                             pulumi.String(fmt.Sprintf("%s-peer", name)),
-		Network:                          args.PeerNetwork,
-		PeerNetwork:                      args.LocalNetwork,
-		ExportCustomRoutes:               pulumi.Bool(args.ImportCustomRoutes),
-		ImportCustomRoutes:               pulumi.Bool(args.ExportCustomRoutes),
-		ExportSubnetRoutesWithPublicIp:   pulumi.Bool(args.ImportSubnetRoutesWithPublicIp),
-		ImportSubnetRoutesWithPublicIp:   pulumi.Bool(args.ExportSubnetRoutesWithPublicIp),
-		StackType:                        pulumi.String(stackType),
+		Name:                           pulumi.String(peerName),
+		Network:                        args.PeerNetwork,
+		PeerNetwork:                    args.LocalNetwork,
+		ExportCustomRoutes:             pulumi.Bool(args.ImportCustomRoutes),
+		ImportCustomRoutes:             pulumi.Bool(args.ExportCustomRoutes),
+		ExportSubnetRoutesWithPublicIp: pulumi.Bool(args.ImportSubnetRoutesWithPublicIp),
+		ImportSubnetRoutesWithPublicIp: pulumi.Bool(args.ExportSubnetRoutesWithPublicIp),
+		StackType:                      pulumi.String(stackType),
 	}, pulumi.Parent(component), pulumi.DependsOn([]pulumi.Resource{local}))
 	if err != nil {
 		return nil, err
