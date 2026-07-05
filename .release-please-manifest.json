@@ -43,7 +43,7 @@
   "go/pkg/kms": "0.2.2",
   "go/pkg/log_export": "0.2.2",
   "go/pkg/network_firewall_policy": "0.2.2",
-  "go/pkg/network_peering": "0.2.2",
+  "go/pkg/network_peering": "0.3.0",
   "go/pkg/private_service_connect": "0.2.2",
   "go/pkg/pubsub": "0.2.2",
   "go/pkg/project_factory": "1.0.2",

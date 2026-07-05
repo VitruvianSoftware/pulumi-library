@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/VitruvianSoftware/pulumi-library/compare/go/pkg/network_peering/v0.2.2...go/pkg/network_peering/v0.3.0) (2026-07-05)
+
+
+### Features
+
+* **network_peering:** support explicit peering resource names ([#92](https://github.com/VitruvianSoftware/pulumi-library/issues/92)) ([2318413](https://github.com/VitruvianSoftware/pulumi-library/commit/2318413cd1b630d1e16df6a9e44ece354d4790dd))
+
 ## [0.2.2](https://github.com/VitruvianSoftware/pulumi-library/compare/go/pkg/network_peering/v0.2.1...go/pkg/network_peering/v0.2.2) (2026-07-05)
 
 
