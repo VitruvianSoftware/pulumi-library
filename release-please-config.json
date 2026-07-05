@@ -124,8 +124,7 @@
       "release-type": "go",
       "component": "go/pkg/app",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.4.2"
+      "include-component-in-tag": true
     },
     "go/pkg/bootstrap": {
       "release-type": "go",
@@ -137,43 +136,37 @@
       "release-type": "go",
       "component": "go/pkg/cicd",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.4.2"
+      "include-component-in-tag": true
     },
     "go/pkg/data": {
       "release-type": "go",
       "component": "go/pkg/data",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.4.2"
+      "include-component-in-tag": true
     },
     "go/pkg/iam": {
       "release-type": "go",
       "component": "go/pkg/iam",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.4.2"
+      "include-component-in-tag": true
     },
     "go/pkg/cloud_dns": {
       "release-type": "go",
       "component": "go/pkg/cloud_dns",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/cloud_functions": {
       "release-type": "go",
       "component": "go/pkg/cloud_functions",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/cloud_router": {
       "release-type": "go",
       "component": "go/pkg/cloud_router",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/compute_instance": {
       "release-type": "go",
@@ -185,8 +178,7 @@
       "release-type": "go",
       "component": "go/pkg/gcloud",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/instance_template": {
       "release-type": "go",
@@ -198,43 +190,37 @@
       "release-type": "go",
       "component": "go/pkg/kms",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/log_export": {
       "release-type": "go",
       "component": "go/pkg/log_export",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/network_firewall_policy": {
       "release-type": "go",
       "component": "go/pkg/network_firewall_policy",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/network_peering": {
       "release-type": "go",
       "component": "go/pkg/network_peering",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/private_service_connect": {
       "release-type": "go",
       "component": "go/pkg/private_service_connect",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/pubsub": {
       "release-type": "go",
       "component": "go/pkg/pubsub",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "0.2.2"
+      "include-component-in-tag": true
     },
     "go/pkg/project_factory": {
       "release-type": "go",
