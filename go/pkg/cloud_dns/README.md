@@ -4,6 +4,18 @@ A Pulumi component for creating Cloud DNS managed zones with support for private
 
 **Upstream Reference:** [terraform-google-modules/cloud-dns/google](https://registry.terraform.io/modules/terraform-google-modules/cloud-dns/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cloud_dns/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_dns@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_dns
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_dns"
+```
+
 ## Overview
 
 Creates DNS managed zones with:

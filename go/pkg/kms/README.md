@@ -4,6 +4,18 @@ A Pulumi component for creating Cloud KMS keyrings and crypto keys.
 
 **Upstream Reference:** [terraform-google-modules/kms/google](https://registry.terraform.io/modules/terraform-google-modules/kms/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/kms/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/kms@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/kms
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/kms"
+```
+
 ## Overview
 
 Creates a Cloud KMS keyring with optional crypto keys, supporting configurable key purpose and rotation periods.

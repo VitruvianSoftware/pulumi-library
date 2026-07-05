@@ -4,6 +4,18 @@ A Pulumi component for deploying Cloud Functions (2nd gen) with optional event t
 
 **Upstream Reference:** [terraform-google-modules/event-function/google](https://registry.terraform.io/modules/terraform-google-modules/event-function/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cloud_functions/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions"
+```
+
 ## Overview
 
 Creates a Cloud Function v2 with:

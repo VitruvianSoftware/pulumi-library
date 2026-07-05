@@ -4,6 +4,18 @@ A Pulumi component for creating GCP Cloud Routers with optional BGP configuratio
 
 **Upstream Reference:** [terraform-google-modules/cloud-router/google](https://registry.terraform.io/modules/terraform-google-modules/cloud-router/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cloud_router/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_router@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_router
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_router"
+```
+
 ## Overview
 
 Creates a Cloud Router with:

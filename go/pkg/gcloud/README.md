@@ -4,6 +4,18 @@ A Pulumi component for executing `gcloud` CLI commands as local commands during 
 
 **Upstream Reference:** [terraform-google-modules/gcloud/google](https://registry.terraform.io/modules/terraform-google-modules/gcloud/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/gcloud/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud"
+```
+
 ## Overview
 
 Wraps `gcloud` CLI commands using `@pulumi/command` for scenarios where a native Pulumi resource doesn't exist. Supports:

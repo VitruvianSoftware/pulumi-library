@@ -4,6 +4,18 @@ A Pulumi component for configuring Private Service Connect (PSC) endpoints with 
 
 **Upstream Reference:** [terraform-google-modules/network/google//modules/private-service-connect](https://registry.terraform.io/modules/terraform-google-modules/network/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/private_service_connect/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/private_service_connect@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/private_service_connect
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/private_service_connect"
+```
+
 ## Overview
 
 Creates a PSC endpoint with:

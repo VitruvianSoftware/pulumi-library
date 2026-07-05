@@ -4,6 +4,18 @@ A Pulumi component for creating bidirectional VPC Network Peering between two GC
 
 **Upstream Reference:** [terraform-google-modules/network/google//modules/network-peering](https://registry.terraform.io/modules/terraform-google-modules/network/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/network_peering/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network_peering@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network_peering
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/network_peering"
+```
+
 ## Overview
 
 Creates two reciprocal peering connections between a local and peer network, with configurable route exchange options and dual-stack support.

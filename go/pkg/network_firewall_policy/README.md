@@ -4,6 +4,18 @@ A Pulumi component for creating GCP Network Firewall Policies with rules and net
 
 **Upstream Reference:** [terraform-google-modules/network/google//modules/network-firewall-policy](https://registry.terraform.io/modules/terraform-google-modules/network/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/network_firewall_policy/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network_firewall_policy@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/network_firewall_policy
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/network_firewall_policy"
+```
+
 ## Overview
 
 Creates a network firewall policy with:
