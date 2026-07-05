@@ -33,6 +33,8 @@ Creates two reciprocal peering connections between a local and peer network, wit
 | `ExportSubnetRoutesWithPublicIp` | `bool` | | Export subnet routes with public IPs |
 | `ImportSubnetRoutesWithPublicIp` | `bool` | | Import subnet routes with public IPs |
 | `StackType` | `string` | | Stack type (`IPV4_ONLY` or `IPV4_IPV6`) |
+| `LocalName` | `string` | | Override the GCP name of the local→peer peering (defaults to `<name>-local`) |
+| `PeerName` | `string` | | Override the GCP name of the peer→local peering (defaults to `<name>-peer`) |
 
 ### Outputs
 
