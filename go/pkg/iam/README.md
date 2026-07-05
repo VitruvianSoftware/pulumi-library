@@ -2,6 +2,18 @@
 
 Additive and authoritative IAM bindings across 5 GCP scopes, each with a dedicated constructor for compile-time safety and blast radius isolation.
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/iam/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/iam@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/iam
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/iam"
+```
+
 ## Overview
 
 Each GCP IAM scope has its own pair of constructors:

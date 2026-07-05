@@ -2,6 +2,18 @@
 
 Creates a BigQuery data platform with **raw** and **curated** datasets for data lake architectures.
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/data/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/data@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/data
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/data"
+```
+
 ## Overview
 
 The `DataPlatform` component wraps two [`bigquery.Dataset`](https://www.pulumi.com/registry/packages/gcp/api-docs/bigquery/dataset/) resources:

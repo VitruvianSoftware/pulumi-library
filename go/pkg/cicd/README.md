@@ -2,6 +2,18 @@
 
 Provides turn-key Workload Identity Federation (WIF) components for external CI/CD integrations, mirroring the functionality of the official Google Cloud Foundation Toolkit (CFT) CI/CD submodules.
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cicd/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cicd@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cicd
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/cicd"
+```
+
 ## Overview
 
 The `cicd` package bundles Workload Identity Pools, OIDC Providers, and Service Account IAM bindings into reusable Pulumi `ComponentResource` types for seamless, keyless authentication pipelines.

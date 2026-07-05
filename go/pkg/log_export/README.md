@@ -4,6 +4,18 @@ A Pulumi component for creating GCP log sinks at organization, folder, project, 
 
 **Upstream Reference:** [terraform-google-modules/log-export/google](https://registry.terraform.io/modules/terraform-google-modules/log-export/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/log_export/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export"
+```
+
 ## Overview
 
 Creates log sinks that export filtered logs to destinations like Cloud Storage, Pub/Sub, BigQuery, or Cloud Logging buckets. Supports all four GCP organizational levels.

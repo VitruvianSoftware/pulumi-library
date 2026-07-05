@@ -4,6 +4,18 @@ A Pulumi component for creating Pub/Sub topics with optional subscriptions.
 
 **Upstream Reference:** [terraform-google-modules/pubsub/google](https://registry.terraform.io/modules/terraform-google-modules/pubsub/google)
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/pubsub/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/pubsub@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/pubsub
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/pubsub"
+```
+
 ## Overview
 
 Creates a Pub/Sub topic with:

@@ -2,6 +2,18 @@
 
 Deploys [Cloud Run v2](https://cloud.google.com/run/docs/overview/what-is-cloud-run) services with environment variables, custom service accounts, and configurable ingress.
 
+## Installation
+
+> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/app/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/app@vX.Y.Z`.
+
+```bash
+go get github.com/VitruvianSoftware/pulumi-library/go/pkg/app
+```
+
+```go
+import "github.com/VitruvianSoftware/pulumi-library/go/pkg/app"
+```
+
 ## Overview
 
 The `CloudRunApp` component wraps [`cloudrunv2.Service`](https://www.pulumi.com/registry/packages/gcp/api-docs/cloudrunv2/service/) to deploy containerized applications. It uses the Cloud Run **v2** API (not the legacy v1 API) for access to the latest features.
