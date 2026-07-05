@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/VitruvianSoftware/pulumi-library/compare/go/pkg/network/v1.0.2...go/pkg/network/v1.1.0) (2026-07-05)
+
+
+### Features
+
+* **network:** support explicit private_service_cidr for PSA ([#90](https://github.com/VitruvianSoftware/pulumi-library/issues/90)) ([bd3ba57](https://github.com/VitruvianSoftware/pulumi-library/commit/bd3ba5745aa42e983cb5e92e9fc2dcff3b3637de))
+
 ## [1.0.2](https://github.com/VitruvianSoftware/pulumi-library/compare/go/pkg/network/v1.0.1...go/pkg/network/v1.0.2) (2026-07-04)
 
 
