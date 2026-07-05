@@ -128,8 +128,7 @@
       "release-type": "go",
       "component": "go/pkg/bootstrap",
       "tag-separator": "/",
-      "include-component-in-tag": true,
-      "release-as": "1.0.1"
+      "include-component-in-tag": true
     },
     "go/pkg/cicd": {
       "release-type": "go",
