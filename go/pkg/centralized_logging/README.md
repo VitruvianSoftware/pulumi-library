@@ -4,14 +4,12 @@ Reusable Pulumi components for centralized log export infrastructure.
 
 This package mirrors the upstream Terraform modules used by the Google Cloud Foundation:
 
-| Pulumi Component | Upstream Terraform Module |
-|---|---|
-| `LogExport` | `terraform-google-modules/log-export/google` |
-| `CentralizedLogging` | `modules/centralized-logging` (in-repo) |
+| Pulumi Component     | Upstream Terraform Module                    |
+| -------------------- | -------------------------------------------- |
+| `LogExport`          | `terraform-google-modules/log-export/google` |
+| `CentralizedLogging` | `modules/centralized-logging` (in-repo)      |
 
 ## Installation
-
-> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/centralized_logging/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/centralized_logging@vX.Y.Z`.
 
 ```bash
 go get github.com/VitruvianSoftware/pulumi-library/go/pkg/centralized_logging

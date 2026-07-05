@@ -47,23 +47,23 @@ type SecondaryRangeArgs struct {
 }
 
 type SubnetArgs struct {
-	Name            string
-	Region          string
-	CIDR            string
-	SecondaryRanges []SecondaryRangeArgs
-	Role            string
-	Purpose         string
-	FlowLogs        bool
+	Name             string
+	Region           string
+	CIDR             string
+	SecondaryRanges  []SecondaryRangeArgs
+	Role             string
+	Purpose          string
+	FlowLogs         bool
 	FlowLogsInterval string
 	FlowLogsSampling float64
 	FlowLogsMetadata string
 }
 
 type NetworkingArgs struct {
-	ProjectID                   pulumi.StringInput
-	VPCName                     pulumi.StringInput
-	Subnets                     []SubnetArgs
-	EnablePSA                   bool
+	ProjectID pulumi.StringInput
+	VPCName   pulumi.StringInput
+	Subnets   []SubnetArgs
+	EnablePSA bool
 	// PrivateServiceCidr, when set (e.g. "10.16.56.0/21"), reserves that exact
 	// CIDR for Private Service Access instead of auto-allocating a /16. Mirrors
 	// the upstream per-environment private_service_cidr.

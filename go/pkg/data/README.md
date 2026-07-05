@@ -2,18 +2,6 @@
 
 Creates a BigQuery data platform with **raw** and **curated** datasets for data lake architectures.
 
-## Installation
-
-> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/data/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/data@vX.Y.Z`.
-
-```bash
-go get github.com/VitruvianSoftware/pulumi-library/go/pkg/data
-```
-
-```go
-import "github.com/VitruvianSoftware/pulumi-library/go/pkg/data"
-```
-
 ## Overview
 
 The `DataPlatform` component wraps two [`bigquery.Dataset`](https://www.pulumi.com/registry/packages/gcp/api-docs/bigquery/dataset/) resources:
@@ -27,18 +15,18 @@ Dataset IDs are parameterized to avoid collisions when deploying multiple `DataP
 
 ### `DataPlatformArgs`
 
-| Field | Type | Required | Default | Description |
-|-------|------|:--------:|---------|-------------|
-| `ProjectID` | `pulumi.StringInput` | ✅ | — | The GCP project ID |
-| `Location` | `pulumi.StringInput` | ✅ | — | BigQuery dataset location (e.g., `"US"`, `"EU"`, `"us-central1"`) |
-| `RawDatasetID` | `string` | | `"raw_data"` | Dataset ID for the raw data landing zone |
-| `CuratedDatasetID` | `string` | | `"curated_data"` | Dataset ID for the curated/transformed data |
+| Field              | Type                 | Required | Default          | Description                                                       |
+| ------------------ | -------------------- | :------: | ---------------- | ----------------------------------------------------------------- |
+| `ProjectID`        | `pulumi.StringInput` |    ✅    | —                | The GCP project ID                                                |
+| `Location`         | `pulumi.StringInput` |    ✅    | —                | BigQuery dataset location (e.g., `"US"`, `"EU"`, `"us-central1"`) |
+| `RawDatasetID`     | `string`             |          | `"raw_data"`     | Dataset ID for the raw data landing zone                          |
+| `CuratedDatasetID` | `string`             |          | `"curated_data"` | Dataset ID for the curated/transformed data                       |
 
 ### `DataPlatform` (Output)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `RawDataset` | `*bigquery.Dataset` | The raw data BigQuery dataset |
+| Field            | Type                | Description                       |
+| ---------------- | ------------------- | --------------------------------- |
+| `RawDataset`     | `*bigquery.Dataset` | The raw data BigQuery dataset     |
 | `CuratedDataset` | `*bigquery.Dataset` | The curated data BigQuery dataset |
 
 ### Constructor

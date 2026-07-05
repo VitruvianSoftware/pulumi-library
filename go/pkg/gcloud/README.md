@@ -4,21 +4,10 @@ A Pulumi component for executing `gcloud` CLI commands as local commands during 
 
 **Upstream Reference:** [terraform-google-modules/gcloud/google](https://registry.terraform.io/modules/terraform-google-modules/gcloud/google)
 
-## Installation
-
-> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/gcloud/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud@vX.Y.Z`.
-
-```bash
-go get github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud
-```
-
-```go
-import "github.com/VitruvianSoftware/pulumi-library/go/pkg/gcloud"
-```
-
 ## Overview
 
 Wraps `gcloud` CLI commands using `@pulumi/command` for scenarios where a native Pulumi resource doesn't exist. Supports:
+
 - Multiple commands executed sequentially
 - Custom environment variables
 - Single `createCmdBody` shorthand
@@ -27,18 +16,18 @@ Wraps `gcloud` CLI commands using `@pulumi/command` for scenarios where a native
 
 ### GcloudArgs
 
-| Field | Type | Required | Description |
-|:--|:--|:--|:--|
-| `Commands` | `[]string` | | List of gcloud commands to execute |
-| `CreateCmdBody` | `string` | | Single command body (alternative to `Commands`) |
-| `Environment` | `map[string]string` | | Environment variables for command execution |
+| Field           | Type                | Required | Description                                     |
+| :-------------- | :------------------ | :------- | :---------------------------------------------- |
+| `Commands`      | `[]string`          |          | List of gcloud commands to execute              |
+| `CreateCmdBody` | `string`            |          | Single command body (alternative to `Commands`) |
+| `Environment`   | `map[string]string` |          | Environment variables for command execution     |
 
 > **Note:** Exactly one of `Commands` or `CreateCmdBody` should be provided.
 
 ### Outputs
 
-| Field | Type | Description |
-|:--|:--|:--|
+| Field      | Type                 | Description                    |
+| :--------- | :------------------- | :----------------------------- |
 | `Commands` | `[]*command.Command` | The executed command resources |
 
 ## Usage

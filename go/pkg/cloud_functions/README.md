@@ -4,21 +4,10 @@ A Pulumi component for deploying Cloud Functions (2nd gen) with optional event t
 
 **Upstream Reference:** [terraform-google-modules/event-function/google](https://registry.terraform.io/modules/terraform-google-modules/event-function/google)
 
-## Installation
-
-> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/cloud_functions/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions@vX.Y.Z`.
-
-```bash
-go get github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions
-```
-
-```go
-import "github.com/VitruvianSoftware/pulumi-library/go/pkg/cloud_functions"
-```
-
 ## Overview
 
 Creates a Cloud Function v2 with:
+
 - Source code from a GCS bucket
 - Configurable runtime, entry point, and memory
 - Optional Pub/Sub or Eventarc event triggers
@@ -28,25 +17,25 @@ Creates a Cloud Function v2 with:
 
 ### CloudFunctionArgs
 
-| Field | Type | Required | Description |
-|:--|:--|:--|:--|
-| `ProjectID` | `pulumi.StringInput` | ✅ | GCP project ID |
-| `Region` | `string` | ✅ | GCP region |
-| `Name` | `string` | ✅ | Function name |
-| `EntryPoint` | `string` | ✅ | Function entry point |
-| `SourceBucket` | `pulumi.StringInput` | ✅ | GCS bucket containing source |
-| `SourceObject` | `pulumi.StringInput` | ✅ | GCS object key for source |
-| `Runtime` | `string` | | Runtime (default: `go121`) |
-| `AvailableMemory` | `string` | | Memory allocation (default: `256M`) |
-| `Timeout` | `int` | | Timeout in seconds (default: 60) |
-| `EventTriggerType` | `string` | | Eventarc trigger type |
-| `ServiceAccountEmail` | `pulumi.StringInput` | | Service account email |
-| `Labels` | `map[string]string` | | Resource labels |
+| Field                 | Type                 | Required | Description                         |
+| :-------------------- | :------------------- | :------- | :---------------------------------- |
+| `ProjectID`           | `pulumi.StringInput` | ✅       | GCP project ID                      |
+| `Region`              | `string`             | ✅       | GCP region                          |
+| `Name`                | `string`             | ✅       | Function name                       |
+| `EntryPoint`          | `string`             | ✅       | Function entry point                |
+| `SourceBucket`        | `pulumi.StringInput` | ✅       | GCS bucket containing source        |
+| `SourceObject`        | `pulumi.StringInput` | ✅       | GCS object key for source           |
+| `Runtime`             | `string`             |          | Runtime (default: `go121`)          |
+| `AvailableMemory`     | `string`             |          | Memory allocation (default: `256M`) |
+| `Timeout`             | `int`                |          | Timeout in seconds (default: 60)    |
+| `EventTriggerType`    | `string`             |          | Eventarc trigger type               |
+| `ServiceAccountEmail` | `pulumi.StringInput` |          | Service account email               |
+| `Labels`              | `map[string]string`  |          | Resource labels                     |
 
 ### Outputs
 
-| Field | Type | Description |
-|:--|:--|:--|
+| Field      | Type                         | Description                |
+| :--------- | :--------------------------- | :------------------------- |
 | `Function` | `*cloudfunctionsv2.Function` | The created Cloud Function |
 
 ## Usage

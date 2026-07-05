@@ -4,18 +4,6 @@ A Pulumi component for creating GCP log sinks at organization, folder, project, 
 
 **Upstream Reference:** [terraform-google-modules/log-export/google](https://registry.terraform.io/modules/terraform-google-modules/log-export/google)
 
-## Installation
-
-> This module is versioned and tagged independently. Git tags use the Go module-path format `go/pkg/log_export/vX.Y.Z`, so pin a version with `go get github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export@vX.Y.Z`.
-
-```bash
-go get github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export
-```
-
-```go
-import "github.com/VitruvianSoftware/pulumi-library/go/pkg/log_export"
-```
-
 ## Overview
 
 Creates log sinks that export filtered logs to destinations like Cloud Storage, Pub/Sub, BigQuery, or Cloud Logging buckets. Supports all four GCP organizational levels.
@@ -24,22 +12,22 @@ Creates log sinks that export filtered logs to destinations like Cloud Storage, 
 
 ### LogExportArgs
 
-| Field | Type | Required | Description |
-|:--|:--|:--|:--|
-| `DestinationURI` | `pulumi.StringInput` | ✅ | Destination URI for exported logs |
-| `Filter` | `pulumi.StringInput` | | Log filter expression |
-| `LogSinkName` | `pulumi.StringInput` | ✅ | Name for the log sink |
-| `ParentResourceID` | `pulumi.StringInput` | ✅ | ID of the parent resource (org ID, folder ID, project ID, or billing account) |
-| `ResourceType` | `string` | ✅ | `organization`, `folder`, `project`, or `billing_account` |
-| `UniqueWriterIdentity` | `bool` | | Create a unique writer identity (project sinks) |
-| `IncludeChildren` | `bool` | | Include child resources (org/folder sinks) |
+| Field                  | Type                 | Required | Description                                                                   |
+| :--------------------- | :------------------- | :------- | :---------------------------------------------------------------------------- |
+| `DestinationURI`       | `pulumi.StringInput` | ✅       | Destination URI for exported logs                                             |
+| `Filter`               | `pulumi.StringInput` |          | Log filter expression                                                         |
+| `LogSinkName`          | `pulumi.StringInput` | ✅       | Name for the log sink                                                         |
+| `ParentResourceID`     | `pulumi.StringInput` | ✅       | ID of the parent resource (org ID, folder ID, project ID, or billing account) |
+| `ResourceType`         | `string`             | ✅       | `organization`, `folder`, `project`, or `billing_account`                     |
+| `UniqueWriterIdentity` | `bool`               |          | Create a unique writer identity (project sinks)                               |
+| `IncludeChildren`      | `bool`               |          | Include child resources (org/folder sinks)                                    |
 
 ### Outputs
 
-| Field | Type | Description |
-|:--|:--|:--|
+| Field            | Type                  | Description                                     |
+| :--------------- | :-------------------- | :---------------------------------------------- |
 | `WriterIdentity` | `pulumi.StringOutput` | Service account for granting destination access |
-| `Sink` | `pulumi.Resource` | The created log sink resource |
+| `Sink`           | `pulumi.Resource`     | The created log sink resource                   |
 
 ## Usage
 
