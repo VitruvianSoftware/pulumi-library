@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.2](https://github.com/VitruvianSoftware/pulumi-library/compare/go/pkg/app/v0.4.1...go/pkg/app/v0.4.2) (2026-07-05)
+
+
+### Features
+
+* **library:** refactor to independent workspaces for go and ts ([df88451](https://github.com/VitruvianSoftware/pulumi-library/commit/df88451e4195f05d5b8455085d2806c4e96ee6a3))
+* restructure to polyglot monorepo with release-please ([#21](https://github.com/VitruvianSoftware/pulumi-library/issues/21)) ([942dbcf](https://github.com/VitruvianSoftware/pulumi-library/commit/942dbcf9f672d870489a679cf67ae819e1e5aee9))
+
+
+### Bug Fixes
+
+* **go:** path-format tags for all remaining Go packages ([#87](https://github.com/VitruvianSoftware/pulumi-library/issues/87)) ([6eca917](https://github.com/VitruvianSoftware/pulumi-library/commit/6eca917d106d87fe86f5887965bd0cd2bfbc2d7b))
+* **library:** resolve workspace dependencies and test config ([b48fd3f](https://github.com/VitruvianSoftware/pulumi-library/commit/b48fd3f9aec3df5c2193c8997d7bbc7fd43d1719))
+* **library:** resolve workspace dependencies and test config ([781c2d1](https://github.com/VitruvianSoftware/pulumi-library/commit/781c2d1d2bb7a51c21cd6917bd8d51bea2ea49b4))
+* **tests:** fix library tests struct types ([#71](https://github.com/VitruvianSoftware/pulumi-library/issues/71)) ([d6d73ed](https://github.com/VitruvianSoftware/pulumi-library/commit/d6d73edb3e703338a9d6f64adba003b6d9bdf293))
+* **ts:** trigger release ([1bcb6fa](https://github.com/VitruvianSoftware/pulumi-library/commit/1bcb6faa91d8c2bb7d6b80c6ec1e081bf8e136b6))
+
 ## [0.4.1](https://github.com/VitruvianSoftware/pulumi-library/compare/go-app-v0.4.0...go-app-v0.4.1) (2026-07-03)
 
 
