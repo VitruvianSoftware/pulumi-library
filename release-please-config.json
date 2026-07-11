@@ -168,6 +168,12 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
+    "go/pkg/cloud_run": {
+      "release-type": "go",
+      "component": "go/pkg/cloud_run",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
     "go/pkg/compute_instance": {
       "release-type": "go",
       "component": "go/pkg/compute_instance",
