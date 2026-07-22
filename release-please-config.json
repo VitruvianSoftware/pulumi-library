@@ -1,124 +1,8 @@
 {
   "packages": {
-    "ts": {
-      "release-type": "node",
-      "component": "foundation-library"
-    },
     "go": {
       "release-type": "go",
       "component": "go-foundation"
-    },
-    "ts/packages/budget": {
-      "release-type": "node",
-      "component": "foundation-budget"
-    },
-    "ts/packages/cb-private-pool": {
-      "release-type": "node",
-      "component": "foundation-cb-private-pool"
-    },
-    "ts/packages/centralized-logging": {
-      "release-type": "node",
-      "component": "foundation-centralized-logging"
-    },
-    "ts/packages/dns-hub": {
-      "release-type": "node",
-      "component": "foundation-dns-hub"
-    },
-    "ts/packages/google-group": {
-      "release-type": "node",
-      "component": "foundation-google-group"
-    },
-    "ts/packages/hierarchical-firewall-policy": {
-      "release-type": "node",
-      "component": "foundation-hierarchical-firewall-policy"
-    },
-    "ts/packages/instance-template": {
-      "release-type": "node",
-      "component": "foundation-instance-template"
-    },
-    "ts/packages/kms": {
-      "release-type": "node",
-      "component": "foundation-kms"
-    },
-    "ts/packages/network": {
-      "release-type": "node",
-      "component": "foundation-network"
-    },
-    "ts/packages/network-peering": {
-      "release-type": "node",
-      "component": "foundation-network-peering"
-    },
-    "ts/packages/org-policy": {
-      "release-type": "node",
-      "component": "foundation-org-policy"
-    },
-    "ts/packages/parent-iam": {
-      "release-type": "node",
-      "component": "foundation-parent-iam"
-    },
-    "ts/packages/private-service-connect": {
-      "release-type": "node",
-      "component": "foundation-private-service-connect"
-    },
-    "ts/packages/project-factory": {
-      "release-type": "node",
-      "component": "foundation-project-factory"
-    },
-    "ts/packages/simple-bucket": {
-      "release-type": "node",
-      "component": "foundation-simple-bucket"
-    },
-    "ts/packages/vpn-ha": {
-      "release-type": "node",
-      "component": "foundation-vpn-ha"
-    },
-    "ts/packages/vpc-service-controls": {
-      "release-type": "node",
-      "component": "foundation-vpc-service-controls"
-    },
-    "ts/packages/cai-monitoring": {
-      "release-type": "node",
-      "component": "foundation-cai-monitoring"
-    },
-    "ts/packages/bootstrap": {
-      "release-type": "node",
-      "component": "foundation-bootstrap"
-    },
-    "ts/packages/cloud-dns": {
-      "release-type": "node",
-      "component": "foundation-cloud-dns"
-    },
-    "ts/packages/cloud-functions": {
-      "release-type": "node",
-      "component": "foundation-cloud-functions"
-    },
-    "ts/packages/cloud-router": {
-      "release-type": "node",
-      "component": "foundation-cloud-router"
-    },
-    "ts/packages/cloud-storage": {
-      "release-type": "node",
-      "component": "foundation-cloud-storage"
-    },
-    "ts/packages/compute-instance": {
-      "release-type": "node",
-      "component": "foundation-compute-instance"
-    },
-    "ts/packages/gcloud": {
-      "release-type": "node",
-      "component": "foundation-gcloud"
-    },
-    "ts/packages/log-export": {
-      "release-type": "node",
-      "component": "foundation-log-export"
-    },
-    "ts/packages/network-firewall-policy": {
-      "release-type": "node",
-      "component": "foundation-network-firewall-policy"
-    },
-    "ts/packages/pubsub": {
-      "release-type": "node",
-      "component": "foundation-pubsub"
     },
     "go/pkg/app": {
       "release-type": "go",
@@ -132,21 +16,21 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
+    "go/pkg/cai_monitoring": {
+      "release-type": "go",
+      "component": "go/pkg/cai_monitoring",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
+    "go/pkg/centralized_logging": {
+      "release-type": "go",
+      "component": "go/pkg/centralized_logging",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
     "go/pkg/cicd": {
       "release-type": "go",
       "component": "go/pkg/cicd",
-      "tag-separator": "/",
-      "include-component-in-tag": true
-    },
-    "go/pkg/data": {
-      "release-type": "go",
-      "component": "go/pkg/data",
-      "tag-separator": "/",
-      "include-component-in-tag": true
-    },
-    "go/pkg/iam": {
-      "release-type": "go",
-      "component": "go/pkg/iam",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
@@ -174,15 +58,39 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
+    "go/pkg/cloud_storage": {
+      "release-type": "go",
+      "component": "go/pkg/cloud_storage",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
     "go/pkg/compute_instance": {
       "release-type": "go",
       "component": "go/pkg/compute_instance",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
+    "go/pkg/data": {
+      "release-type": "go",
+      "component": "go/pkg/data",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
     "go/pkg/gcloud": {
       "release-type": "go",
       "component": "go/pkg/gcloud",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
+    "go/pkg/google_group": {
+      "release-type": "go",
+      "component": "go/pkg/google_group",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
+    "go/pkg/iam": {
+      "release-type": "go",
+      "component": "go/pkg/iam",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
@@ -204,6 +112,18 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
+    "go/pkg/neon": {
+      "release-type": "go",
+      "component": "go/pkg/neon",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
+    "go/pkg/network": {
+      "release-type": "go",
+      "component": "go/pkg/network",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
     "go/pkg/network_firewall_policy": {
       "release-type": "go",
       "component": "go/pkg/network_firewall_policy",
@@ -216,15 +136,15 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
-    "go/pkg/private_service_connect": {
+    "go/pkg/org_policy": {
       "release-type": "go",
-      "component": "go/pkg/private_service_connect",
+      "component": "go/pkg/org_policy",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
-    "go/pkg/pubsub": {
+    "go/pkg/private_service_connect": {
       "release-type": "go",
-      "component": "go/pkg/pubsub",
+      "component": "go/pkg/private_service_connect",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
@@ -234,9 +154,15 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
-    "go/pkg/network": {
+    "go/pkg/pubsub": {
       "release-type": "go",
-      "component": "go/pkg/network",
+      "component": "go/pkg/pubsub",
+      "tag-separator": "/",
+      "include-component-in-tag": true
+    },
+    "go/pkg/upstash": {
+      "release-type": "go",
+      "component": "go/pkg/upstash",
       "tag-separator": "/",
       "include-component-in-tag": true
     },
@@ -246,35 +172,121 @@
       "tag-separator": "/",
       "include-component-in-tag": true
     },
-    "go/pkg/centralized_logging": {
-      "release-type": "go",
-      "component": "go/pkg/centralized_logging",
-      "tag-separator": "/",
-      "include-component-in-tag": true
+    "ts": {
+      "release-type": "node",
+      "component": "foundation-library"
     },
-    "go/pkg/cloud_storage": {
-      "release-type": "go",
-      "component": "go/pkg/cloud_storage",
-      "tag-separator": "/",
-      "include-component-in-tag": true
+    "ts/packages/bootstrap": {
+      "release-type": "node",
+      "component": "foundation-bootstrap"
     },
-    "go/pkg/org_policy": {
-      "release-type": "go",
-      "component": "go/pkg/org_policy",
-      "tag-separator": "/",
-      "include-component-in-tag": true
+    "ts/packages/budget": {
+      "release-type": "node",
+      "component": "foundation-budget"
     },
-    "go/pkg/cai_monitoring": {
-      "release-type": "go",
-      "component": "go/pkg/cai_monitoring",
-      "tag-separator": "/",
-      "include-component-in-tag": true
+    "ts/packages/cai-monitoring": {
+      "release-type": "node",
+      "component": "foundation-cai-monitoring"
     },
-    "go/pkg/google_group": {
-      "release-type": "go",
-      "component": "go/pkg/google_group",
-      "tag-separator": "/",
-      "include-component-in-tag": true
+    "ts/packages/cb-private-pool": {
+      "release-type": "node",
+      "component": "foundation-cb-private-pool"
+    },
+    "ts/packages/centralized-logging": {
+      "release-type": "node",
+      "component": "foundation-centralized-logging"
+    },
+    "ts/packages/cloud-dns": {
+      "release-type": "node",
+      "component": "foundation-cloud-dns"
+    },
+    "ts/packages/cloud-functions": {
+      "release-type": "node",
+      "component": "foundation-cloud-functions"
+    },
+    "ts/packages/cloud-router": {
+      "release-type": "node",
+      "component": "foundation-cloud-router"
+    },
+    "ts/packages/cloud-storage": {
+      "release-type": "node",
+      "component": "foundation-cloud-storage"
+    },
+    "ts/packages/compute-instance": {
+      "release-type": "node",
+      "component": "foundation-compute-instance"
+    },
+    "ts/packages/dns-hub": {
+      "release-type": "node",
+      "component": "foundation-dns-hub"
+    },
+    "ts/packages/gcloud": {
+      "release-type": "node",
+      "component": "foundation-gcloud"
+    },
+    "ts/packages/google-group": {
+      "release-type": "node",
+      "component": "foundation-google-group"
+    },
+    "ts/packages/hierarchical-firewall-policy": {
+      "release-type": "node",
+      "component": "foundation-hierarchical-firewall-policy"
+    },
+    "ts/packages/instance-template": {
+      "release-type": "node",
+      "component": "foundation-instance-template"
+    },
+    "ts/packages/kms": {
+      "release-type": "node",
+      "component": "foundation-kms"
+    },
+    "ts/packages/log-export": {
+      "release-type": "node",
+      "component": "foundation-log-export"
+    },
+    "ts/packages/network": {
+      "release-type": "node",
+      "component": "foundation-network"
+    },
+    "ts/packages/network-firewall-policy": {
+      "release-type": "node",
+      "component": "foundation-network-firewall-policy"
+    },
+    "ts/packages/network-peering": {
+      "release-type": "node",
+      "component": "foundation-network-peering"
+    },
+    "ts/packages/org-policy": {
+      "release-type": "node",
+      "component": "foundation-org-policy"
+    },
+    "ts/packages/parent-iam": {
+      "release-type": "node",
+      "component": "foundation-parent-iam"
+    },
+    "ts/packages/private-service-connect": {
+      "release-type": "node",
+      "component": "foundation-private-service-connect"
+    },
+    "ts/packages/project-factory": {
+      "release-type": "node",
+      "component": "foundation-project-factory"
+    },
+    "ts/packages/pubsub": {
+      "release-type": "node",
+      "component": "foundation-pubsub"
+    },
+    "ts/packages/simple-bucket": {
+      "release-type": "node",
+      "component": "foundation-simple-bucket"
+    },
+    "ts/packages/vpc-service-controls": {
+      "release-type": "node",
+      "component": "foundation-vpc-service-controls"
+    },
+    "ts/packages/vpn-ha": {
+      "release-type": "node",
+      "component": "foundation-vpn-ha"
     }
   }
 }
