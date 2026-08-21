@@ -176,6 +176,10 @@
       "release-type": "node",
       "component": "foundation-library"
     },
+    "ts/packages/app": {
+      "release-type": "node",
+      "component": "foundation-app"
+    },
     "ts/packages/bootstrap": {
       "release-type": "node",
       "component": "foundation-bootstrap"
@@ -196,6 +200,10 @@
       "release-type": "node",
       "component": "foundation-centralized-logging"
     },
+    "ts/packages/cicd": {
+      "release-type": "node",
+      "component": "foundation-cicd"
+    },
     "ts/packages/cloud-dns": {
       "release-type": "node",
       "component": "foundation-cloud-dns"
@@ -215,6 +223,10 @@
     "ts/packages/compute-instance": {
       "release-type": "node",
       "component": "foundation-compute-instance"
+    },
+    "ts/packages/data": {
+      "release-type": "node",
+      "component": "foundation-data"
     },
     "ts/packages/dns-hub": {
       "release-type": "node",
