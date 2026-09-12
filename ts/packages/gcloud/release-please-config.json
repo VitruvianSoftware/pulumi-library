@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/gcloud": {
+    "packages/pulumi/library/ts/packages/gcloud": {
       "release-type": "node",
       "component": "foundation-gcloud"
     }

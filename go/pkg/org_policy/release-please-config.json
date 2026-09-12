@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/org_policy": {
+    "packages/pulumi/library/go/pkg/org_policy": {
       "release-type": "go",
       "component": "go-org-policy"
     }

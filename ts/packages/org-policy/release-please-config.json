@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/org-policy": {
+    "packages/pulumi/library/ts/packages/org-policy": {
       "release-type": "node",
       "component": "foundation-org-policy"
     }

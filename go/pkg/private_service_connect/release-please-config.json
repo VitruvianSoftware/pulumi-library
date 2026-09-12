@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/private_service_connect": {
+    "packages/pulumi/library/go/pkg/private_service_connect": {
       "release-type": "go",
       "component": "go-private-service-connect"
     }

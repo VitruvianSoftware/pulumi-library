@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/parent-iam": {
+    "packages/pulumi/library/ts/packages/parent-iam": {
       "release-type": "node",
       "component": "foundation-parent-iam"
     }

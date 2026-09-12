@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/pubsub": {
+    "packages/pulumi/library/ts/packages/pubsub": {
       "release-type": "node",
       "component": "foundation-pubsub"
     }

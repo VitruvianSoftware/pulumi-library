@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/cicd": {
+    "packages/pulumi/library/go/pkg/cicd": {
       "release-type": "go",
       "component": "go-cicd"
     }

@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/centralized_logging": {
+    "packages/pulumi/library/go/pkg/centralized_logging": {
       "release-type": "go",
       "component": "go-centralized-logging"
     }

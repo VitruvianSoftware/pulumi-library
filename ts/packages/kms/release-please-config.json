@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/kms": {
+    "packages/pulumi/library/ts/packages/kms": {
       "release-type": "node",
       "component": "foundation-kms"
     }

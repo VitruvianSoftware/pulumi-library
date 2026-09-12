@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/data": {
+    "packages/pulumi/library/go/pkg/data": {
       "release-type": "go",
       "component": "go-data"
     }

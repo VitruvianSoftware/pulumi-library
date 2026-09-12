@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/cloud_storage": {
+    "packages/pulumi/library/go/pkg/cloud_storage": {
       "release-type": "go",
       "component": "go-cloud-storage"
     }

@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/gcloud": {
+    "packages/pulumi/library/go/pkg/gcloud": {
       "release-type": "go",
       "component": "go-gcloud"
     }

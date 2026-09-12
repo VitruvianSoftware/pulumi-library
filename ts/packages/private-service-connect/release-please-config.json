@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/private-service-connect": {
+    "packages/pulumi/library/ts/packages/private-service-connect": {
       "release-type": "node",
       "component": "foundation-private-service-connect"
     }

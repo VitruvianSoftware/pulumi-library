@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/budget": {
+    "packages/pulumi/library/ts/packages/budget": {
       "release-type": "node",
       "component": "foundation-budget"
     }

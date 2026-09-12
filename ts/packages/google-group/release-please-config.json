@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/google-group": {
+    "packages/pulumi/library/ts/packages/google-group": {
       "release-type": "node",
       "component": "foundation-google-group"
     }

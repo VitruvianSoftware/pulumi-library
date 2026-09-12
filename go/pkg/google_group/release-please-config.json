@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/google_group": {
+    "packages/pulumi/library/go/pkg/google_group": {
       "release-type": "go",
       "component": "go-google-group"
     }

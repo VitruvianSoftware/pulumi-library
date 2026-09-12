@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/network_firewall_policy": {
+    "packages/pulumi/library/go/pkg/network_firewall_policy": {
       "release-type": "go",
       "component": "go-network-firewall-policy"
     }

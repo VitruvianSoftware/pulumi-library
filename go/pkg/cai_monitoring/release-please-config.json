@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/cai_monitoring": {
+    "packages/pulumi/library/go/pkg/cai_monitoring": {
       "release-type": "go",
       "component": "go-cai-monitoring"
     }

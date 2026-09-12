@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/ts/packages/vpn-ha": {
+    "packages/pulumi/library/ts/packages/vpn-ha": {
       "release-type": "node",
       "component": "foundation-vpn-ha"
     }

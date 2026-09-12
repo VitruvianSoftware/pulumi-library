@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/vpc_service_controls": {
+    "packages/pulumi/library/go/pkg/vpc_service_controls": {
       "release-type": "go",
       "component": "go-vpc-service-controls"
     }

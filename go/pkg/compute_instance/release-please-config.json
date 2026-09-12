@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/compute_instance": {
+    "packages/pulumi/library/go/pkg/compute_instance": {
       "release-type": "go",
       "component": "go-compute-instance"
     }

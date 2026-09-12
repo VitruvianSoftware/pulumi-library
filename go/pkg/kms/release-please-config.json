@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/kms": {
+    "packages/pulumi/library/go/pkg/kms": {
       "release-type": "go",
       "component": "go-kms"
     }

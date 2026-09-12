@@ -1,6 +1,6 @@
 {
   "packages": {
-    "pulumi/library/go/pkg/upstash": {
+    "packages/pulumi/library/go/pkg/upstash": {
       "release-type": "go",
       "component": "go-upstash"
     }
